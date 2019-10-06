@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   system.hpp                                         :+:      :+:    :+:   */
+/*   eOperandType.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/06 15:17:53 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/06 17:29:44 by gsmith           ###   ########.fr       */
+/*   Created: 2019/10/06 17:21:35 by gsmith            #+#    #+#             */
+/*   Updated: 2019/10/06 17:30:21 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYSTEM_HPP
-# define SYSTEM_HPP
+#ifndef EOPERANDTYPE_HPP
+# define EOPERANDTYPE_HPP
 
-#include <iostream>
+enum eOperandType {
+	Int8,
+	Int16,
+	Int32,
+	Float,
+	Double,
+};
 
 #endif
