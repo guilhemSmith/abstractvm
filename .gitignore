@@ -1,0 +1,11 @@
+# binary filename
+avm
+
+# compiled files
+build/
+
+# dependance files
+dep/
+
+# editor config files
+.vscode/
