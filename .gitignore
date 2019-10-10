@@ -5,7 +5,7 @@ avm
 build/
 
 # dependance files
-dep/
+depend/
 
 # editor config files
 .vscode/
