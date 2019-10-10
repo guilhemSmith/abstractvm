@@ -6,9 +6,13 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/10/10 14:10:50 by gsmith           ###   ########.fr        #
+#    Updated: 2019/10/10 14:29:17 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+ifndef VERBOSE
+.SILENT: 
+endif
 
 NAME = avm
 
@@ -38,7 +42,7 @@ all: $(NAME)
 .PHONY: re
 re:
 	rm -f $(BUILD)
-	rm -df $(DIR_BUILD)
+	rm -df $(DIR_BUILD) || True
 	rm -f $(NAME)
 	@Make all
 
@@ -61,7 +65,8 @@ $(DIR_DEP):
 # Depend files building
 
 $(DIR_DEP)/%.d: $(DIR_SRC)/%.cpp $(DIR_DEP)
-	$(CXX) $(CXXFLAGS) $(INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< > $@
+	$(CXX) $(CXXFLAGS) $(INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< \
+		| sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@
 
 # Files cleaning
 
@@ -75,5 +80,7 @@ clean:
 .PHONY: fclean
 fclean: clean
 	rm -f $(NAME)
+
+# include depend files
 
 -include $(DEP)
