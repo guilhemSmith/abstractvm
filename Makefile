@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/10/10 17:10:56 by gsmith           ###   ########.fr        #
+#    Updated: 2019/10/11 15:15:33 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ DIR_DEP = depend
 DIR_INC = include
 
 FILES_SRC = \
-	avm.cpp
+	avm.cpp \
+	Lexer.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
 FILES_DEP = $(FILES_SRC:.cpp=.d)
 
@@ -35,16 +36,6 @@ SRC = $(addprefix $(DIR_SRC)/, $(FILES_SRC))
 BUILD = $(addprefix $(DIR_BUILD)/, $(FILES_BUILD))
 DEP = $(addprefix $(DIR_DEP)/, $(FILES_DEP))
 INC = -I $(DIR_INC)
-
-# progression variable
-
-O = $(words $(BUILD))
-I = 0
-B = $(words $I)$(eval I := x $I)
-
-D = $(words $(DEP))
-J = 0
-W = $(words $J)$(eval J := x $J)
 
 # Color and output macros
 
@@ -80,7 +71,7 @@ endif
 	rm -f $(BUILD)
 	rm -df $(DIR_BUILD) || True
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(PURPLE)Cleaning complete.            \n$(NC)"
+	printf "\r$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
 endif
 ifndef VERBOSE
 	printf "$(PREFIX)$(RED)Deleting $(subst $(S_N),$(S_B),$(RED))$(NAME)$(RED) binary...$(NC)"
@@ -95,42 +86,36 @@ endif
 
 $(NAME): $(BUILD)
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)"
+	printf "$(PREFIX)$(CYAN)Dependencies files up to date.\n$(NC)"
+	printf "$(PREFIX)$(BLUE)Object files ready.\n$(NC)"
+	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)"
 endif
 	$(CXX) $(CXXFLAGS) $(INC) -o $@ $^
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(BLUE)Binary $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.                   \n$(NC)"
+	printf "\r$(PREFIX)$(BLUE)Binary $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
 endif
 
-$(DIR_BUILD)/%.o: $(DIR_SRC)/%.cpp $(DIR_BUILD)
+$(DIR_BUILD)/%.o: $(DIR_SRC)/%.cpp
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(YELLOW)Compiling $@...$(NC)"
+	printf "$(PREFIX)$(YELLOW)Compiling $@...$(NC)"
 endif
+	mkdir -p $(DIR_BUILD)
 	$(CXX) $(CXXFLAGS) $(INC) -c -o $@ $<
 ifndef VERBOSE
-  ifeq ($B,$O)
-	printf "\r$(PREFIX)$(BLUE)Object files ready.                       \n$(NC)"
-  endif
+	printf "\r$(PREFIX)$(BLUE)File $@ compiled.\n$(NC)"
 endif
- 
-$(DIR_BUILD):
-	mkdir -p $(DIR_BUILD)
-
-$(DIR_DEP):
-	mkdir -p $(DIR_DEP)
 
 # Depend files building
 
-$(DIR_DEP)/%.d: $(DIR_SRC)/%.cpp $(DIR_DEP)
+$(DIR_DEP)/%.d: $(DIR_SRC)/%.cpp
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(YELLOW)Writing dependency $@...$(NC)"
+	printf "$(PREFIX)$(YELLOW)Writing dependency $@...$(NC)"
 endif
+	mkdir -p $(DIR_DEP)
 	$(CXX) $(CXXFLAGS) $(INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< \
 		| sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@
 ifndef VERBOSE
-  ifeq ($D,$W)
-	printf "\r$(PREFIX)$(CYAN)Dependencies files updated.                       \n$(NC)"
-  endif
+	printf "\r$(PREFIX)$(CYAN)Dependency $@ updated.  \n$(NC)"
 endif
 
 # Files cleaning
@@ -143,12 +128,13 @@ endif
 	rm -f $(BUILD)
 	rm -df $(DIR_BUILD) 2>/dev/null || True
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(RED)Cleaning dependencies files...$(NC)"
+	printf "\r$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
+	printf "$(PREFIX)$(RED)Cleaning dependencies files...$(NC)"
 endif
 	rm -f $(DEP)
 	rm -df $(DIR_DEP) 2>/dev/null || True
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(PURPLE)Cleaning complete.            \n$(NC)"
+	printf "\r$(PREFIX)$(PURPLE)Dependencies files cleaned.   \n$(NC)"
 endif
 
 .PHONY: fclean
