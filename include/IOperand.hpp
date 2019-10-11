@@ -6,15 +6,22 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 17:15:02 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/06 17:28:18 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/11 16:24:44 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef IOPERAND_HPP
 # define IOPERAND_HPP
 
-# include "eOperandType.hpp"
 # include <string>
+
+enum eOperandType {
+	Int8,
+	Int16,
+	Int32,
+	Float,
+	Double,
+};
 
 class IOperand {
 
@@ -30,7 +37,7 @@ public:
 
 	virtual std::string const &	toString(void) const = 0;						// String representation of the instance
 
-	virtual ~IOperand(void) {}
+	virtual						~IOperand(void) {}
 
 };
 
