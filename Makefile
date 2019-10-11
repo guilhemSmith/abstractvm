@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/10/11 15:15:33 by gsmith           ###   ########.fr        #
+#    Updated: 2019/10/11 18:00:41 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,10 @@ DIR_INC = include
 
 FILES_SRC = \
 	avm.cpp \
-	Lexer.cpp
+	Lexer.cpp\
+	TokenError.cpp \
+	TokenOperation.cpp \
+	TokenValue.cpp
 FILES_BUILD = $(FILES_SRC:.cpp=.o)
 FILES_DEP = $(FILES_SRC:.cpp=.d)
 

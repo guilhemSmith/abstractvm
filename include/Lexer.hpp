@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/11 15:34:13 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/11 17:17:06 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ public:
 	Lexer(void);
 	~Lexer(void);
 
-	void		read_input(std::istream & input_src) throw();
+	void		readInput(std::istream & input_src) throw();
 
 private:
 	Lexer(const Lexer &rhs);
