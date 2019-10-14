@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:20:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 11:38:09 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/14 17:57:25 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,9 @@ private:
 	TokenOperation(void);
 
 	eOperationType		type;
-	
-	typedef struct 				sTypeString {
-		eOperationType type;
-		std::string		str;
-	}							tTypeString;
 
 	static int const			nb_type = 11;
-	static tTypeString const	type_string_tab[nb_type];
+	static std::string const	type_string_tab[nb_type];
 
 };
 

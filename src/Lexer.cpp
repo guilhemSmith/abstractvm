@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 13:36:16 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/14 17:56:31 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,19 @@
 #include "TokenError.hpp"
 #include "TokenValue.hpp"
 
+Lexer::tOrandCreate const		Lexer::create_tab[] = {
+	&Lexer::createInt8,
+	&Lexer::createInt16,
+	&Lexer::createInt32,
+	&Lexer::createFloat,
+	&Lexer::createDouble,
+};
+
 Lexer::Lexer(void) {}
 
 Lexer::~Lexer(void) {}
 
-void	Lexer::readInput(std::istream & input_src) throw() {
+void						Lexer::readInput(std::istream & input_src) throw() {
 	std::string							input_buf;
 	std::stringstream					ss;
 	eOperationType						opType;
@@ -48,7 +56,7 @@ void	Lexer::readInput(std::istream & input_src) throw() {
 	}
 }
 
-void	Lexer::printList(void) const {
+void						Lexer::printList(void) const {
 	std::list<std::vector<IToken *>>::const_iterator	vec;
 	std::vector<IToken *>::const_iterator				tok;
 
@@ -63,7 +71,7 @@ void	Lexer::printList(void) const {
 	std::cout << " --- " << std::endl;
 }
 
-void	Lexer::clearList(void) {
+void						Lexer::clearList(void) {
 	std::list<std::vector<IToken *>>::iterator	vec;
 	std::vector<IToken *>::iterator				tok;
 
@@ -73,4 +81,32 @@ void	Lexer::clearList(void) {
 		}
 	}
 	this->input_list = std::list<std::vector<IToken *>>();
+}
+
+IOperand const *		Lexer::createOperand( eOperandType type, \
+						std::string const& value ) const {
+	if (type < 0 || type >= Lexer::nb_orand_type) {
+		return NULL;
+	}
+	return (this->*create_tab[type])(value);
+}
+IOperand const *		Lexer::createInt8(std::string const& value) const {
+	(void)value;
+	return NULL;
+}
+IOperand const *		Lexer::createInt16(std::string const& value) const {
+	(void)value;
+	return NULL;
+}
+IOperand const *		Lexer::createInt32(std::string const& value) const {
+	(void)value;
+	return NULL;
+}
+IOperand const *	Lexer::createFloat(std::string const& value) const {
+	(void)value;
+	return NULL;
+}
+IOperand const *		Lexer::createDouble(std::string const& value) const {
+	(void)value;
+	return NULL;
 }
