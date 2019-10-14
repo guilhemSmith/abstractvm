@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:20:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/11 18:35:45 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/14 11:38:09 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ enum eOperationType {
 	Mod,
 	Print,
 	Exit,
+	Invalid,
 };
 
 class TokenOperation: public IToken {
@@ -39,7 +40,8 @@ public:
 	eOperationType				getOperationType(void) const;
 	virtual eTokenType			getType(void) const;
 	virtual std::string			toString(void) const;
-	static std::string			operationTypeToString(eOperationType const & type);			
+	static std::string			opTypeToString(eOperationType const & type);		
+	static eOperationType		stringToOpType(std::string const & str);		
 
 private:
 	TokenOperation(void);

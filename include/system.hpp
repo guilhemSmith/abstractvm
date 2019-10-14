@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:17:53 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/11 15:43:45 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/14 12:11:10 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,7 @@
 # include <queue>
 # include <stack>
 # include <string>
+# include <sstream>
+# include <vector>
 
 #endif

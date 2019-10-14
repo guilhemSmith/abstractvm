@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:31:13 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/11 18:35:53 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/14 11:38:33 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ eTokenType			TokenOperation::getType(void) const {
 std::string 		TokenOperation::toString(void) const {
 	std::string		output;
 	output += "[ope:'";
-	output += TokenOperation::operationTypeToString(this->type);
+	output += TokenOperation::opTypeToString(this->type);
 	output += "']";
 	return output;
 }
 
-std::string			TokenOperation::operationTypeToString(eOperationType const & type) {
+std::string			TokenOperation::opTypeToString(eOperationType const & type) {
 	int		i = -1;
 	while (++i < TokenOperation::nb_type) {
 		if (type == TokenOperation::type_string_tab[i].type) {
@@ -61,4 +61,14 @@ std::string			TokenOperation::operationTypeToString(eOperationType const & type)
 		}
 	}
 	return "???";
+}
+
+eOperationType		TokenOperation::stringToOpType(std::string const & str) {
+	int		i = -1;
+	while (++i < TokenOperation::nb_type) {
+		if (str == TokenOperation::type_string_tab[i].str) {
+			return TokenOperation::type_string_tab[i].type;
+		}
+	}
+	return eOperationType::Invalid;
 }

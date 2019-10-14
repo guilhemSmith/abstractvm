@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:16:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/11 18:07:39 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/14 13:33:46 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ int		main(int argc, char *argv[]) {
 				std::cout << std::endl;
 			}
 			if (file_stream.good()) {
-				std::cout << "[File: " << file_index << "]: " \
-					<< argv[file_index] << std::endl;
+				if (argc > 2) {
+					std::cout << "[File: " << file_index << "]: " \
+						<< argv[file_index] << std::endl;
+				}
 				lexer.readInput(file_stream);
 			} else {
 				std::cerr << "[File: " << file_index \
@@ -36,6 +38,9 @@ int		main(int argc, char *argv[]) {
 					<< std::endl;
 			}
 			file_stream.close();
+			lexer.printList();
+			lexer.clearList();
+			lexer.printList();
 		}
 	}
 	return 0;
