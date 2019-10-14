@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 17:56:31 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/14 19:06:10 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include "TokenOperation.hpp"
 #include "TokenError.hpp"
 #include "TokenValue.hpp"
+
+std::regex const				Lexer::regex_orand = \
+									std::regex("^(\\w+)\\(([\\d.]+)\\)$");
 
 Lexer::tOrandCreate const		Lexer::create_tab[] = {
 	&Lexer::createInt8,
@@ -31,7 +34,6 @@ Lexer::~Lexer(void) {}
 void						Lexer::readInput(std::istream & input_src) throw() {
 	std::string							input_buf;
 	std::stringstream					ss;
-	eOperationType						opType;
 	bool								run = true;
 
 	while (run) {
@@ -40,16 +42,8 @@ void						Lexer::readInput(std::istream & input_src) throw() {
 			run = false;
 			continue;
 		}
-		std::vector<IToken *>	vec = std::vector<IToken *>();
 		ss = std::stringstream(input_buf);
-		while (ss >> input_buf) {
-			opType = TokenOperation::stringToOpType(input_buf);
-			if (opType != eOperationType::Invalid) {
-				vec.push_back(new TokenOperation(opType));
-			} else {
-				vec.push_back(new TokenError(input_buf));
-			}
-		}
+		std::vector<IToken *>	vec = this->tokenize(ss);
 		if (vec.size() > 0) {
 			this->input_list.push_back(vec);
 		}
@@ -81,6 +75,30 @@ void						Lexer::clearList(void) {
 		}
 	}
 	this->input_list = std::list<std::vector<IToken *>>();
+}
+
+std::vector<IToken *>	Lexer::tokenize(std::stringstream & ss) const {
+	std::string				input_buf;
+	eOperationType			opType;
+	std::vector<IToken *>	vec = std::vector<IToken *>();
+	std::smatch				grps;
+
+	while (ss >> input_buf) {
+		opType = TokenOperation::stringToOpType(input_buf);
+		if (opType != eOperationType::Invalid) {
+			vec.push_back(new TokenOperation(opType));
+		} else {
+			if (std::regex_search(input_buf, grps, Lexer::regex_orand)) {
+				for (size_t i = 1; i < grps.size(); i++) {
+					std::cout << grps[i] << ";";
+				}
+				std::cout << std::endl;
+			} else {
+				vec.push_back(new TokenError(input_buf));
+			}
+		}
+	}
+	return vec;
 }
 
 IOperand const *		Lexer::createOperand( eOperandType type, \

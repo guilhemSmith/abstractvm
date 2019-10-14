@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:16:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 16:07:39 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/14 18:54:54 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,5 @@ int		main(int argc, char *argv[]) {
 			lexer.printList();
 		}
 	}
-	std::cout << "size of int8_t: " << sizeof(int8_t) * 8 << " bits" << std::endl;
-	std::cout << "size of int16_t: " << sizeof(int16_t) * 8 << " bits" << std::endl;
-	std::cout << "size of int32_t: " << sizeof(int32_t) * 8 << " bits" << std::endl;
-	std::cout << "size of float: " << sizeof(float) * 8 << " bits" << std::endl;
-	std::cout << "size of double: " << sizeof(double) * 8 << " bits" << std::endl;
 	return 0;
 }
