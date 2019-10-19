@@ -6,15 +6,17 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:31:13 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 12:32:29 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/19 15:05:05 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "TokenValue.hpp"
 
-TokenValue::TokenValue(IOperand * operand): operand(operand) {}
+TokenValue::TokenValue(IOperand const * operand): operand(operand) {}
 
-TokenValue::~TokenValue(void) {}
+TokenValue::~TokenValue(void) {
+	delete this->operand;
+}
 
 TokenValue::TokenValue(TokenValue const & rhs): operand(rhs.operand) {}
 

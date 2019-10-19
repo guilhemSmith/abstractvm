@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 19:06:10 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/19 16:43:20 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ Lexer::tOrandCreate const		Lexer::create_tab[] = {
 	&Lexer::createInt32,
 	&Lexer::createFloat,
 	&Lexer::createDouble,
+};
+
+std::string const				Lexer::identify_operand_type[] = {
+	"int8",
+	"int16",
+	"int32",
+	"float",
+	"double",
 };
 
 Lexer::Lexer(void) {}
@@ -81,24 +89,38 @@ std::vector<IToken *>	Lexer::tokenize(std::stringstream & ss) const {
 	std::string				input_buf;
 	eOperationType			opType;
 	std::vector<IToken *>	vec = std::vector<IToken *>();
-	std::smatch				grps;
 
 	while (ss >> input_buf) {
 		opType = TokenOperation::stringToOpType(input_buf);
 		if (opType != eOperationType::Invalid) {
 			vec.push_back(new TokenOperation(opType));
 		} else {
-			if (std::regex_search(input_buf, grps, Lexer::regex_orand)) {
-				for (size_t i = 1; i < grps.size(); i++) {
-					std::cout << grps[i] << ";";
-				}
-				std::cout << std::endl;
-			} else {
-				vec.push_back(new TokenError(input_buf));
-			}
+			vec.push_back(this->createValue(input_buf));
 		}
 	}
 	return vec;
+}
+
+IToken *				Lexer::createValue(std::string value_raw) const {
+	std::smatch				grps;
+
+	if (std::regex_search(value_raw, grps, Lexer::regex_orand)) {
+		if (grps.size() == 3) {
+			for (size_t i = 0; i < Lexer::nb_orand_type; i++) {
+				if (Lexer::identify_operand_type[i] != grps[1]) {
+					continue;
+				}
+				IOperand const *	op = this->createOperand( \
+											(eOperandType)i, grps[2]);
+				if (op == NULL) {
+					return new TokenError(ErrValue, grps[0]);
+				}
+				return new TokenValue(op);
+			}
+		}
+		return new TokenError(ErrValueType, value_raw);
+	}
+	return new TokenError(ErrToken, value_raw);
 }
 
 IOperand const *		Lexer::createOperand( eOperandType type, \

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 18:55:52 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/19 15:11:24 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ private:
 				input_list;
 
 	std::vector<IToken *>	tokenize(std::stringstream & ss) const;
+	IToken *				createValue(std::string value_raw) const;
 	IOperand const *		createOperand( eOperandType type, \
 								std::string const& value ) const;
 	IOperand const *		createInt8(std::string const& value) const;
@@ -71,6 +72,7 @@ private:
 	static int const			nb_orand_type = 5;
 	static std::regex const		regex_orand;
 	static tOrandCreate const	create_tab[nb_orand_type];
+	static std::string const	identify_operand_type[nb_orand_type];
 
 };
 

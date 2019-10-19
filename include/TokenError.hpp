@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:20:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/11 17:56:37 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/19 16:40:49 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,18 @@
 
 # include "IToken.hpp"
 
+enum eTokenErrorType {
+	ErrToken,
+	ErrValueType,
+	ErrValue,
+};
+
 class TokenError: public IToken {
 public:
-	TokenError(std::string input_value);
+	TokenError(eTokenErrorType type, std::string input_value);
 	~TokenError(void);
 	TokenError(TokenError const & rhs);
-	TokenError &			operator=(TokenError const & rhs);
+	TokenError &				operator=(TokenError const & rhs);
 
 	std::string const &			getInputValue(void) const;
 	virtual eTokenType			getType(void) const;
@@ -29,6 +35,7 @@ public:
 private:
 	TokenError(void);
 
+	eTokenErrorType				type;
 	std::string					input_value;
 };
 

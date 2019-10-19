@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:20:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 12:32:34 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/19 15:01:45 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 class TokenValue: public IToken {
 public:
-	TokenValue(IOperand * operand);
+	TokenValue(IOperand const * operand);
 	~TokenValue(void);
 	TokenValue(TokenValue const & rhs);
 	TokenValue &			operator=(TokenValue const & rhs);
@@ -31,7 +31,7 @@ public:
 private:
 	TokenValue(void);
 
-	IOperand *					operand;
+	IOperand const *			operand;
 };
 
 #endif
