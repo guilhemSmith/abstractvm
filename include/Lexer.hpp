@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/04 13:38:35 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 15:50:11 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,28 @@
 # include <list>
 # include <regex>
 # include <vector>
+# include <tuple>
 # include <exception>
-// # include <stack>
 # include "IToken.hpp"
 # include "IOperand.hpp"
 
 class Lexer {
 
 public:
-	// class LexerFail: public std::exception {
-	// 	public:
-	// 		LexerFail(std::stack<char *> err_stack) throw();
-	// 		virtual ~LexerFail(void) throw();
-	// 		virtual const char *	what(void) const throw();
+	class LexerFail: public std::exception {
+		public:
+			LexerFail(std::vector<std::tuple<int, std::string>> errors) throw();
+			LexerFail(const LexerFail &rhs) throw();
+			virtual ~LexerFail(void) throw();
+			virtual const char *	what(void) const throw();
 
-	// 	private:
-	// 		std::stack<char *>		err_stack;
+		private:
+			std::string				message;
 
-	// 		LexerFail(void) throw();
-	// 		LexerFail(const LexerFail &rhs) throw();
-	// 		LexerFail&				operator=(const LexerFail &rhs) throw();
+			LexerFail(void) throw();
+			LexerFail&				operator=(const LexerFail &rhs) throw();
 		
-	// };
+	};
 
 	Lexer(void);
 	~Lexer(void);
@@ -46,7 +46,8 @@ public:
 	std::list<std::vector<IToken *>> const & \
 							getList(void) const;
 
-	void					readInput(std::istream & input_src) throw();
+	void					readInput(std::istream & input_src) \
+								throw(std::exception);
 	void					printList(void) const;
 	void					clearList(void);
 
@@ -57,6 +58,7 @@ private:
 	std::list<std::vector<IToken *>> \
 				input_list;
 
+	void					checkErrors(void) throw(LexerFail);
 	std::vector<IToken *>	tokenize(std::stringstream & ss) const;
 	IToken *				createValue(std::string value_raw) const;
 	IOperand const *		createOperand( eOperandType type, \

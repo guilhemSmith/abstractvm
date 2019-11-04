@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:16:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/19 16:56:06 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 15:51:11 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ int		main(int argc, char *argv[]) {
 	Lexer			lexer;
 
 	if (argc == 1) {
-		lexer.readInput(std::cin);
+		try {
+			lexer.readInput(std::cin);
+		} catch (Lexer::LexerFail lf) {
+			std::cout << lf.what() << std::endl;
+		}
 		lexer.printList();
 		lexer.clearList();
 	} else {
@@ -33,7 +37,11 @@ int		main(int argc, char *argv[]) {
 					std::cout << "[File: " << file_index << "]: " \
 						<< argv[file_index] << std::endl;
 				}
-				lexer.readInput(file_stream);
+				try {
+					lexer.readInput(file_stream);
+				} catch (Lexer::LexerFail lf) {
+					std::cout << lf.what() << std::endl;
+				}
 			} else {
 				std::cerr << "[File: " << file_index \
 					<< "] - Invalid file name: " << argv[file_index] \

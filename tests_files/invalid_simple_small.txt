@@ -1,6 +1,7 @@
 push int32(30.12)
-push  int32(12)
+push  int8(128)
 add  
-dump int32(0)
+pusg int32(0)
+push floating(124)
 pop
 exit

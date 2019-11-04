@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/04 13:40:51 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 15:50:58 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,13 @@ Lexer::Lexer(void) {}
 
 Lexer::~Lexer(void) {}
 
-void						Lexer::readInput(std::istream & input_src) throw() {
+std::list<std::vector<IToken *>> const & \
+							Lexer::getList(void) const {
+	return this->input_list;
+}
+
+void						Lexer::readInput(std::istream & input_src) \
+								throw(std::exception) {
 	std::string							input_buf;
 	std::stringstream					ss;
 
@@ -63,6 +69,7 @@ void						Lexer::readInput(std::istream & input_src) throw() {
 			break;
 		}
 	}
+	this->checkErrors();
 }
 
 void						Lexer::printList(void) const {
@@ -71,9 +78,9 @@ void						Lexer::printList(void) const {
 
 	std::cout << " --- " << std::endl \
 		<< "Printing input instructions list:" << std::endl;
-	for (vec = this->input_list.begin(); vec !=this->input_list.end(); vec++) {
-		for (tok = vec->begin(); tok != vec->end(); tok++) {
-			std::cout << (*tok)->toString();
+	for (auto instruction : this->input_list) {
+		for (auto token : instruction) {
+			std::cout << token->toString();
 		}
 		std::cout << std::endl;
 	}
@@ -90,6 +97,25 @@ void						Lexer::clearList(void) {
 		}
 	}
 	this->input_list = std::list<std::vector<IToken *>>();
+}
+
+void						Lexer::checkErrors(void) throw(LexerFail) {
+	std::vector<std::tuple<int, std::string>>	error_vec;
+	size_t										i = 1;
+	
+	for (auto instruction : this->input_list) {
+		for (auto token : instruction) {
+			if (token->getType() == eTokenType::Error) {
+				TokenError * const	error = dynamic_cast<TokenError *>(token);
+				std::tuple<int, std::string> msg(i, error->getErrorMessage());
+				error_vec.push_back(msg);
+			}
+		}
+		i++;
+	}
+	if (error_vec.size() > 0) {
+		throw LexerFail(error_vec);
+	}
 }
 
 std::vector<IToken *>	Lexer::tokenize(std::stringstream & ss) const {
@@ -191,7 +217,7 @@ IOperand const *		Lexer::createInt32(std::string const& value) const {
 	}
 	return new OperandInt32(smoll_value, value);
 }
-IOperand const *	Lexer::createFloat(std::string const& value) const {
+IOperand const *		Lexer::createFloat(std::string const& value) const {
 	long double	large_value;
 	float		smoll_value;
 
@@ -226,4 +252,25 @@ IOperand const *		Lexer::createDouble(std::string const& value) const {
 		return new OperandDouble(smoll_value, value.substr(1));
 	}
 	return new OperandDouble(smoll_value, value);
+}
+
+Lexer::LexerFail::LexerFail(std::vector<std::tuple<int, std::string>> errors) \
+							throw() {
+	std::stringstream	ss;
+
+	ss << "Lexer failed: " << errors.size() << " invalid token." << std::endl;
+	for (auto error : errors) {
+		ss << "instruction " << std::get<0>(error) << ": " \
+			<< std::get<1>(error) << std::endl;
+	}
+	this->message = ss.str();
+}
+
+Lexer::LexerFail::LexerFail(const LexerFail &rhs) \
+							throw() : message(rhs.message) {}
+
+Lexer::LexerFail::~LexerFail(void) throw() {}
+
+const char *			Lexer::LexerFail::what(void) const throw() {
+	return this->message.c_str();
 }

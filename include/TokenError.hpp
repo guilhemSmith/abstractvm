@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:20:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/19 16:40:49 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 14:05:58 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ public:
 	TokenError(TokenError const & rhs);
 	TokenError &				operator=(TokenError const & rhs);
 
-	std::string const &			getInputValue(void) const;
+	std::string const			getErrorMessage(void) const;
 	virtual eTokenType			getType(void) const;
 	virtual std::string			toString(void) const;
 
