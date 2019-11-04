@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/19 15:11:24 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 11:23:46 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <list>
 # include <regex>
 # include <vector>
-// # include <exception>
+# include <exception>
 // # include <stack>
 # include "IToken.hpp"
 # include "IOperand.hpp"

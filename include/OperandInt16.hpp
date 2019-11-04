@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 16:33:21 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 11:33:00 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 class OperandInt16: public IOperand {
 	
 public:
-	OperandInt16(int16_t value, std::string const & str);
+	OperandInt16(int16_t value, std::string const str);
 	virtual						~OperandInt16(void);
 
 	virtual int					getPrecision(void) const;
@@ -38,7 +38,7 @@ private:
 	OperandInt16& 				operator=(OperandInt16 const & rhs);
 
 	int16_t						value;
-	std::string const &			str;
+	std::string const			str;
 
 };
 

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 16:34:08 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 11:32:42 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 class OperandInt8: public IOperand {
 	
 public:
-	OperandInt8(int8_t value, std::string const & str);
+	OperandInt8(int8_t value, std::string const str);
 	virtual						~OperandInt8(void);
 
 	virtual int					getPrecision(void) const;
@@ -39,7 +39,7 @@ private:
 	OperandInt8& 				operator=(OperandInt8 const & rhs);
 
 	int8_t						value;
-	std::string const &			str;
+	std::string const			str;
 
 };
 

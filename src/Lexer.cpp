@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/19 16:43:20 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 11:49:06 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 #include "TokenOperation.hpp"
 #include "TokenError.hpp"
 #include "TokenValue.hpp"
+#include "OperandInt8.hpp"
+#include "OperandInt16.hpp"
+#include "OperandInt32.hpp"
 
 std::regex const				Lexer::regex_orand = \
-									std::regex("^(\\w+)\\(([\\d.]+)\\)$");
+									std::regex("^(\\w+)\\((-?[\\d.]+)\\)$");
 
 Lexer::tOrandCreate const		Lexer::create_tab[] = {
 	&Lexer::createInt8,
@@ -42,18 +45,20 @@ Lexer::~Lexer(void) {}
 void						Lexer::readInput(std::istream & input_src) throw() {
 	std::string							input_buf;
 	std::stringstream					ss;
-	bool								run = true;
 
-	while (run) {
+	while (input_src.good()) {
 		std::getline(input_src, input_buf);
-		if (input_src.bad() || input_src.eof()) {
-			run = false;
+		if (!input_src.good() && !input_src.eof()) {
 			continue;
 		}
-		ss = std::stringstream(input_buf);
+		size_t	endl = input_buf.find(";");
+		ss = std::stringstream(input_buf.substr(0, endl));
 		std::vector<IToken *>	vec = this->tokenize(ss);
 		if (vec.size() > 0) {
 			this->input_list.push_back(vec);
+		}
+		if (endl != input_buf.npos && input_buf[endl + 1] == ';') {
+			break;
 		}
 	}
 }
@@ -131,16 +136,49 @@ IOperand const *		Lexer::createOperand( eOperandType type, \
 	return (this->*create_tab[type])(value);
 }
 IOperand const *		Lexer::createInt8(std::string const& value) const {
-	(void)value;
-	return NULL;
+	long double	large_value;
+	int8_t		smoll_value;
+
+	try {
+		large_value = stol(value);
+	} catch (std::exception e) {
+		return NULL;
+	}
+	smoll_value = (int8_t)large_value;
+	if (large_value != smoll_value) {
+		return NULL;
+	}
+	return new OperandInt8(smoll_value, value);
 }
 IOperand const *		Lexer::createInt16(std::string const& value) const {
-	(void)value;
-	return NULL;
+	long double	large_value;
+	int16_t		smoll_value;
+
+	try {
+		large_value = stol(value);
+	} catch (std::exception e) {
+		return NULL;
+	}
+	smoll_value = (int16_t)large_value;
+	if (large_value != smoll_value) {
+		return NULL;
+	}
+	return new OperandInt16(smoll_value, value);
 }
 IOperand const *		Lexer::createInt32(std::string const& value) const {
-	(void)value;
-	return NULL;
+	long double	large_value;
+	int32_t		smoll_value;
+
+	try {
+		large_value = stod(value);
+	} catch (std::exception e) {
+		return NULL;
+	}
+	smoll_value = (int32_t)large_value;
+	if (large_value != smoll_value) {
+		return NULL;
+	}
+	return new OperandInt32(smoll_value, value);
 }
 IOperand const *	Lexer::createFloat(std::string const& value) const {
 	(void)value;

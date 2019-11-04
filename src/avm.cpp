@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:16:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 18:54:54 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/10/19 16:56:06 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int		main(int argc, char *argv[]) {
 
 	if (argc == 1) {
 		lexer.readInput(std::cin);
+		lexer.printList();
+		lexer.clearList();
 	} else {
 		file_index = 0;
 		while (++file_index < argc) {
@@ -40,7 +42,6 @@ int		main(int argc, char *argv[]) {
 			file_stream.close();
 			lexer.printList();
 			lexer.clearList();
-			lexer.printList();
 		}
 	}
 	return 0;

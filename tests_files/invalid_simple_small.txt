@@ -1,3 +1,6 @@
-toasted or not toasted ?
-that is the question...
-I guess.
+push int32(30.12)
+push  int32(12)
+add  
+dump int32(0)
+pop
+exit
