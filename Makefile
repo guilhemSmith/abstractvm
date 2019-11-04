@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/10/14 16:41:22 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/04 16:16:10 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,19 +74,19 @@ all: $(NAME)
 .PHONY: re
 re:
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(RED)Cleaning object files...$(NC)"
+	printf "$(PREFIX)$(RED)Cleaning object files...$(NC)\r"
 endif
 	rm -f $(BUILD)
 	rm -df $(DIR_BUILD) || True
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
+	printf "$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
 endif
 ifndef VERBOSE
-	printf "$(PREFIX)$(RED)Deleting $(subst $(S_N),$(S_B),$(RED))$(NAME)$(RED) binary...$(NC)"
+	printf "$(PREFIX)$(RED)Deleting $(subst $(S_N),$(S_B),$(RED))$(NAME)$(RED) binary...$(NC)\r"
 endif
 	rm -f $(NAME)
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(PURPLE)Binary $(subst $(S_N),$(S_B),$(PURPLE))$(NAME)$(PURPLE) deleted.          \n$(NC)"
+	printf "$(PREFIX)$(PURPLE)Binary $(subst $(S_N),$(S_B),$(PURPLE))$(NAME)$(PURPLE) deleted.          \n$(NC)"
 endif
 	@Make all
 
@@ -96,34 +96,34 @@ $(NAME): $(BUILD)
 ifndef VERBOSE
 	printf "$(PREFIX)$(CYAN)Dependencies files up to date.\n$(NC)"
 	printf "$(PREFIX)$(BLUE)Object files ready.\n$(NC)"
-	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)"
+	printf "$(PREFIX)$(YELLOW)Compiling $(subst $(S_N),$(S_B),$(YELLOW))$(NAME)$(YELLOW) binary...$(NC)\r"
 endif
 	$(CXX) $(CXXFLAGS) $(INC) -o $@ $^
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(BLUE)Binary $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
+	printf "$(PREFIX)$(BLUE)Binary $(subst $(S_N),$(S_B),$(BLUE))$(NAME)$(BLUE) ready.      \n$(NC)"
 endif
 
 $(DIR_BUILD)/%.o: $(DIR_SRC)/%.cpp
 ifndef VERBOSE
-	printf "$(PREFIX)$(YELLOW)Compiling $@...$(NC)"
+	printf "$(PREFIX)$(YELLOW)Compiling $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_BUILD)
 	$(CXX) $(CXXFLAGS) $(INC) -c -o $@ $<
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(BLUE)File $@ compiled.\n$(NC)"
+	printf "$(PREFIX)$(BLUE)File $@ compiled.\n$(NC)"
 endif
 
 # Depend files building
 
 $(DIR_DEP)/%.d: $(DIR_SRC)/%.cpp
 ifndef VERBOSE
-	printf "$(PREFIX)$(YELLOW)Writing dependency $@...$(NC)"
+	printf "$(PREFIX)$(YELLOW)Writing dependency $@...$(NC)\r"
 endif
 	mkdir -p $(DIR_DEP)
 	$(CXX) $(CXXFLAGS) $(INC) -MT $(@:$(DIR_DEP)/%.d=$(DIR_BUILD)/%.o) -MM $< \
 		| sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(CYAN)Dependency $@ updated.  \n$(NC)"
+	printf "$(PREFIX)$(CYAN)Dependency $@ updated.  \n$(NC)"
 endif
 
 # Files cleaning
@@ -131,28 +131,28 @@ endif
 .PHONY: clean
 clean:
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(RED)Cleaning object files...$(NC)"
+	printf "$(PREFIX)$(RED)Cleaning object files...$(NC)\r"
 endif
 	rm -f $(BUILD)
 	rm -df $(DIR_BUILD) 2>/dev/null || True
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
-	printf "$(PREFIX)$(RED)Cleaning dependencies files...$(NC)"
+	printf "$(PREFIX)$(PURPLE)Object files cleaned.   \n$(NC)"
+	printf "$(PREFIX)$(RED)Cleaning dependencies files...$(NC)\r"
 endif
 	rm -f $(DEP)
 	rm -df $(DIR_DEP) 2>/dev/null || True
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(PURPLE)Dependencies files cleaned.   \n$(NC)"
+	printf "$(PREFIX)$(PURPLE)Dependencies files cleaned.   \n$(NC)"
 endif
 
 .PHONY: fclean
 fclean: clean
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)"
+	printf "$(PREFIX)$(subst $(S_N),$(S_B),$(RED))Deleting $(NAME)$(RED) binary...$(NC)\r"
 endif
 	rm -f $(NAME)
 ifndef VERBOSE
-	printf "\r$(PREFIX)$(PURPLE)Binary $(subst $(S_N),$(S_B),$(PURPLE))$(NAME)$(PURPLE) deleted.          \n$(NC)"
+	printf "$(PREFIX)$(PURPLE)Binary $(subst $(S_N),$(S_B),$(PURPLE))$(NAME)$(PURPLE) deleted.          \n$(NC)"
 endif
 
 # include depend files
