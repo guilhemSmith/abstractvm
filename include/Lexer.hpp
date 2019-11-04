@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/04 11:23:46 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 13:38:35 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ private:
 
 	typedef IOperand const *(Lexer::*tOrandCreate)(std::string const&) const;
 
+	static double const			epsilon;
 	static int const			nb_orand_type = 5;
 	static std::regex const		regex_orand;
 	static tOrandCreate const	create_tab[nb_orand_type];

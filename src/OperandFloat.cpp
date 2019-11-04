@@ -6,13 +6,13 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 16:41:45 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 13:41:28 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "OperandFloat.hpp"
 
-OperandFloat::OperandFloat(float value, std::string const & str): \
+OperandFloat::OperandFloat(float value, std::string const str): \
 					value(value), str(str) {}
 OperandFloat::~OperandFloat(void) {}
 

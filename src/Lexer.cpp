@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/04 11:49:06 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 13:40:51 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 #include "OperandInt8.hpp"
 #include "OperandInt16.hpp"
 #include "OperandInt32.hpp"
+#include "OperandFloat.hpp"
+#include "OperandDouble.hpp"
 
 std::regex const				Lexer::regex_orand = \
-									std::regex("^(\\w+)\\((-?[\\d.]+)\\)$");
+									std::regex("^(\\w+)\\(([+-]?[\\d.]+)\\)$");
 
 Lexer::tOrandCreate const		Lexer::create_tab[] = {
 	&Lexer::createInt8,
@@ -148,6 +150,9 @@ IOperand const *		Lexer::createInt8(std::string const& value) const {
 	if (large_value != smoll_value) {
 		return NULL;
 	}
+	if (value[0] == '+') {
+		return new OperandInt8(smoll_value, value.substr(1));
+	}
 	return new OperandInt8(smoll_value, value);
 }
 IOperand const *		Lexer::createInt16(std::string const& value) const {
@@ -162,6 +167,9 @@ IOperand const *		Lexer::createInt16(std::string const& value) const {
 	smoll_value = (int16_t)large_value;
 	if (large_value != smoll_value) {
 		return NULL;
+	}
+	if (value[0] == '+') {
+		return new OperandInt16(smoll_value, value.substr(1));
 	}
 	return new OperandInt16(smoll_value, value);
 }
@@ -178,13 +186,44 @@ IOperand const *		Lexer::createInt32(std::string const& value) const {
 	if (large_value != smoll_value) {
 		return NULL;
 	}
+	if (value[0] == '+') {
+		return new OperandInt32(smoll_value, value.substr(1));
+	}
 	return new OperandInt32(smoll_value, value);
 }
 IOperand const *	Lexer::createFloat(std::string const& value) const {
-	(void)value;
-	return NULL;
+	long double	large_value;
+	float		smoll_value;
+
+	try {
+		large_value = stod(value);
+	} catch (std::exception e) {
+		return NULL;
+	}
+	smoll_value = (float)large_value;
+	if (large_value / smoll_value == 1) {
+		return NULL;
+	}
+	if (value[0] == '+') {
+		return new OperandFloat(smoll_value, value.substr(1));
+	}
+	return new OperandFloat(smoll_value, value);
 }
 IOperand const *		Lexer::createDouble(std::string const& value) const {
-	(void)value;
-	return NULL;
+	long double	large_value;
+	double		smoll_value;
+
+	try {
+		large_value = stod(value);
+	} catch (std::exception e) {
+		return NULL;
+	}
+	smoll_value = (double)large_value;
+	if (large_value != smoll_value) {
+		return NULL;
+	}
+	if (value[0] == '+') {
+		return new OperandDouble(smoll_value, value.substr(1));
+	}
+	return new OperandDouble(smoll_value, value);
 }

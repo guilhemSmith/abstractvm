@@ -1,6 +1,6 @@
-;push float(0.3)
-push int32(30)
-push  int32(12);my first comment
+push float(-0.3)
+push int32(-30)
+push  int32(+12);my first comment
 add  
 dump  ; another comment
 pop

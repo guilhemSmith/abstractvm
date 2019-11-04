@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 16:39:13 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/04 13:41:12 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 class OperandDouble: public IOperand {
 	
 public:
-	OperandDouble(double value, std::string const & str);
+	OperandDouble(double value, std::string const str);
 	virtual						~OperandDouble(void);
 
 	virtual int					getPrecision(void) const;
@@ -39,7 +39,7 @@ private:
 	OperandDouble& 				operator=(OperandDouble const & rhs);
 
 	double						value;
-	std::string const &			str;
+	std::string const			str;
 
 };
 
