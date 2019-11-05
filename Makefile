@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/04 16:16:10 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/05 10:51:48 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,9 @@ DIR_DEP = depend
 DIR_INC = include
 
 FILES_SRC = \
+	AbstractVM.cpp \
 	avm.cpp \
-	Lexer.cpp \
+	errors.cpp \
 	OperandDouble.cpp \
 	OperandFloat.cpp \
 	OperandInt8.cpp \

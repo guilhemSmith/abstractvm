@@ -1,64 +1,63 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Lexer.hpp                                          :+:      :+:    :+:   */
+/*   AbstractVM.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/04 15:50:11 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/05 11:17:04 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_HPP
-# define LEXER_HPP
+#ifndef ABSTRACTVM_HPP
+# define ABSTRACTVM_HPP
 
 # include <iostream>
 # include <list>
 # include <regex>
-# include <vector>
-# include <tuple>
 # include <exception>
 # include "IToken.hpp"
 # include "IOperand.hpp"
 
-class Lexer {
+class AbstractVM {
 
 public:
-	class LexerFail: public std::exception {
+	class AbstractVMException: public std::exception {
 		public:
-			LexerFail(std::vector<std::tuple<int, std::string>> errors) throw();
-			LexerFail(const LexerFail &rhs) throw();
-			virtual ~LexerFail(void) throw();
-			virtual const char *	what(void) const throw();
-
-		private:
+			AbstractVMException(void) throw();
+			AbstractVMException(const AbstractVMException &rhs) throw();
+			virtual ~AbstractVMException(void) throw();
+			virtual const char * \
+							what(void) const throw();
+		
+		protected:
 			std::string				message;
 
-			LexerFail(void) throw();
-			LexerFail&				operator=(const LexerFail &rhs) throw();
-		
+		private:
+			AbstractVMException& \
+							operator=(const AbstractVMException &rhs) throw();
 	};
 
-	Lexer(void);
-	~Lexer(void);
+	AbstractVM(void);
+	~AbstractVM(void);
 
 	std::list<std::vector<IToken *>> const & \
 							getList(void) const;
 
 	void					readInput(std::istream & input_src) \
-								throw(std::exception);
+								throw(AbstractVMException);
 	void					printList(void) const;
 	void					clearList(void);
 
 private:
-	Lexer(const Lexer &rhs);
-	Lexer&					operator=(const Lexer &rhs);
+	AbstractVM(const AbstractVM &rhs);
+	AbstractVM&					operator=(const AbstractVM &rhs);
 	
 	std::list<std::vector<IToken *>> \
 				input_list;
 
-	void					checkErrors(void) throw(LexerFail);
+	void					checkErrors(void) throw(AbstractVMException);
 	std::vector<IToken *>	tokenize(std::stringstream & ss) const;
 	IToken *				createValue(std::string value_raw) const;
 	IOperand const *		createOperand( eOperandType type, \
@@ -69,7 +68,7 @@ private:
 	IOperand const *		createFloat(std::string const& value) const;
 	IOperand const *		createDouble(std::string const& value) const;
 
-	typedef IOperand const *(Lexer::*tOrandCreate)(std::string const&) const;
+	typedef IOperand const *(AbstractVM::*tOrandCreate)(std::string const&) const;
 
 	static double const			epsilon;
 	static int const			nb_orand_type = 5;
