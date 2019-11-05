@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:48:12 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 10:53:03 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/05 12:31:06 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@ class LexerFail: public AbstractVM::AbstractVMException {
 	private:
 		LexerFail(void) throw();
 		LexerFail&				operator=(const LexerFail &rhs) throw();
+	
+};
+
+class ParserFail: public AbstractVM::AbstractVMException {
+	public:
+		ParserFail(std::vector<std::tuple<int, std::string>> errors) throw();
+		ParserFail(const ParserFail &rhs) throw();
+		virtual ~ParserFail(void) throw();
+
+	private:
+		ParserFail(void) throw();
+		ParserFail&				operator=(const ParserFail &rhs) throw();
 	
 };
 

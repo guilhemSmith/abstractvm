@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 11:17:04 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/05 14:04:56 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <exception>
 # include "IToken.hpp"
 # include "IOperand.hpp"
+# include "OperandFactory.hpp"
 
 class AbstractVM {
 
@@ -42,39 +43,28 @@ public:
 	AbstractVM(void);
 	~AbstractVM(void);
 
-	std::list<std::vector<IToken *>> const & \
-							getList(void) const;
-
-	void					readInput(std::istream & input_src) \
-								throw(AbstractVMException);
-	void					printList(void) const;
-	void					clearList(void);
+	void						readInput(std::istream & input_src) \
+									throw(AbstractVMException);
+	void						parseInstruction(void) \
+									throw(AbstractVMException);
+	void						printList(void) const;
+	void						clearList(void);
 
 private:
 	AbstractVM(const AbstractVM &rhs);
 	AbstractVM&					operator=(const AbstractVM &rhs);
 	
+	OperandFactory				factory;
 	std::list<std::vector<IToken *>> \
-				input_list;
+								input_list;
 
-	void					checkErrors(void) throw(AbstractVMException);
-	std::vector<IToken *>	tokenize(std::stringstream & ss) const;
-	IToken *				createValue(std::string value_raw) const;
-	IOperand const *		createOperand( eOperandType type, \
-								std::string const& value ) const;
-	IOperand const *		createInt8(std::string const& value) const;
-	IOperand const *		createInt16(std::string const& value) const;
-	IOperand const *		createInt32(std::string const& value) const;
-	IOperand const *		createFloat(std::string const& value) const;
-	IOperand const *		createDouble(std::string const& value) const;
-
-	typedef IOperand const *(AbstractVM::*tOrandCreate)(std::string const&) const;
+	void						checkErrors(void) throw(AbstractVMException);
+	std::vector<IToken *>		tokenize(std::stringstream & ss) const;
+	IToken *					createValue(std::string value_raw) const;
 
 	static double const			epsilon;
-	static int const			nb_orand_type = 5;
 	static std::regex const		regex_orand;
-	static tOrandCreate const	create_tab[nb_orand_type];
-	static std::string const	identify_operand_type[nb_orand_type];
+	static std::string const	get_operand_type[OperandFactory::nb_orand_type];
 
 };
 

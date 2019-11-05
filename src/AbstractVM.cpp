@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 10:53:47 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/05 14:04:27 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,7 @@
 std::regex const				AbstractVM::regex_orand = \
 									std::regex("^(\\w+)\\(([+-]?[\\d.]+)\\)$");
 
-AbstractVM::tOrandCreate const		AbstractVM::create_tab[] = {
-	&AbstractVM::createInt8,
-	&AbstractVM::createInt16,
-	&AbstractVM::createInt32,
-	&AbstractVM::createFloat,
-	&AbstractVM::createDouble,
-};
-
-std::string const				AbstractVM::identify_operand_type[] = {
+std::string const				AbstractVM::get_operand_type[] = {
 	"int8",
 	"int16",
 	"int32",
@@ -44,11 +36,6 @@ std::string const				AbstractVM::identify_operand_type[] = {
 AbstractVM::AbstractVM(void) {}
 
 AbstractVM::~AbstractVM(void) {}
-
-std::list<std::vector<IToken *>> const & \
-							AbstractVM::getList(void) const {
-	return this->input_list;
-}
 
 void						AbstractVM::readInput(std::istream & input_src) \
 								throw(AbstractVMException) {
@@ -73,6 +60,21 @@ void						AbstractVM::readInput(std::istream & input_src) \
 	this->checkErrors();
 }
 
+void						AbstractVM::parseInstruction(void) \
+								throw (AbstractVMException) {
+	std::vector<std::tuple<int, std::string>>	error_vec;
+	size_t										i = 1;
+	
+	for (auto instruction : this->input_list) {
+		std::cout << "instruction " << i << std::endl;
+		// this->checkInstruction();
+		if (error_vec.size() == 0) {
+
+		}
+		i++;
+	}
+}
+
 void						AbstractVM::printList(void) const {
 	std::list<std::vector<IToken *>>::const_iterator	vec;
 	std::vector<IToken *>::const_iterator				tok;
@@ -92,9 +94,9 @@ void						AbstractVM::clearList(void) {
 	std::list<std::vector<IToken *>>::iterator	vec;
 	std::vector<IToken *>::iterator				tok;
 
-	for (vec=this->input_list.begin(); vec !=this->input_list.end(); vec++) {
-		for (tok = vec->begin(); tok != vec->end(); tok++) {
-			delete *tok;
+	for (auto instruction : this->input_list) {
+		for (auto token : instruction) {
+			delete token;
 		}
 	}
 	this->input_list = std::list<std::vector<IToken *>>();
@@ -141,11 +143,11 @@ IToken *				AbstractVM::createValue(std::string value_raw) const {
 
 	if (std::regex_search(value_raw, grps, AbstractVM::regex_orand)) {
 		if (grps.size() == 3) {
-			for (size_t i = 0; i < AbstractVM::nb_orand_type; i++) {
-				if (AbstractVM::identify_operand_type[i] != grps[1]) {
+			for (size_t i = 0; i < this->factory.nb_orand_type; i++) {
+				if (AbstractVM::get_operand_type[i] != grps[1]) {
 					continue;
 				}
-				IOperand const *	op = this->createOperand( \
+				IOperand const *	op = this->factory.createOperand( \
 											(eOperandType)i, grps[2]);
 				if (op == NULL) {
 					return new TokenError(ErrValue, grps[0]);
@@ -156,104 +158,6 @@ IToken *				AbstractVM::createValue(std::string value_raw) const {
 		return new TokenError(ErrValueType, value_raw);
 	}
 	return new TokenError(ErrToken, value_raw);
-}
-
-IOperand const *		AbstractVM::createOperand( eOperandType type, \
-						std::string const& value ) const {
-	if (type < 0 || type >= AbstractVM::nb_orand_type) {
-		return NULL;
-	}
-	return (this->*create_tab[type])(value);
-}
-IOperand const *		AbstractVM::createInt8(std::string const& value) const {
-	long double	large_value;
-	int8_t		smoll_value;
-
-	try {
-		large_value = stol(value);
-	} catch (std::exception e) {
-		return NULL;
-	}
-	smoll_value = (int8_t)large_value;
-	if (large_value != smoll_value) {
-		return NULL;
-	}
-	if (value[0] == '+') {
-		return new OperandInt8(smoll_value, value.substr(1));
-	}
-	return new OperandInt8(smoll_value, value);
-}
-IOperand const *		AbstractVM::createInt16(std::string const& value) const {
-	long double	large_value;
-	int16_t		smoll_value;
-
-	try {
-		large_value = stol(value);
-	} catch (std::exception e) {
-		return NULL;
-	}
-	smoll_value = (int16_t)large_value;
-	if (large_value != smoll_value) {
-		return NULL;
-	}
-	if (value[0] == '+') {
-		return new OperandInt16(smoll_value, value.substr(1));
-	}
-	return new OperandInt16(smoll_value, value);
-}
-IOperand const *		AbstractVM::createInt32(std::string const& value) const {
-	long double	large_value;
-	int32_t		smoll_value;
-
-	try {
-		large_value = stod(value);
-	} catch (std::exception e) {
-		return NULL;
-	}
-	smoll_value = (int32_t)large_value;
-	if (large_value != smoll_value) {
-		return NULL;
-	}
-	if (value[0] == '+') {
-		return new OperandInt32(smoll_value, value.substr(1));
-	}
-	return new OperandInt32(smoll_value, value);
-}
-IOperand const *		AbstractVM::createFloat(std::string const& value) const {
-	long double	large_value;
-	float		smoll_value;
-
-	try {
-		large_value = stod(value);
-	} catch (std::exception e) {
-		return NULL;
-	}
-	smoll_value = (float)large_value;
-	if (large_value / smoll_value == 1) {
-		return NULL;
-	}
-	if (value[0] == '+') {
-		return new OperandFloat(smoll_value, value.substr(1));
-	}
-	return new OperandFloat(smoll_value, value);
-}
-IOperand const *		AbstractVM::createDouble(std::string const& value) const {
-	long double	large_value;
-	double		smoll_value;
-
-	try {
-		large_value = stod(value);
-	} catch (std::exception e) {
-		return NULL;
-	}
-	smoll_value = (double)large_value;
-	if (large_value != smoll_value) {
-		return NULL;
-	}
-	if (value[0] == '+') {
-		return new OperandDouble(smoll_value, value.substr(1));
-	}
-	return new OperandDouble(smoll_value, value);
 }
 
 AbstractVM::AbstractVMException::AbstractVMException(void) throw() {

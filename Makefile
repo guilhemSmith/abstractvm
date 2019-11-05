@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/05 10:51:48 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/05 13:54:03 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ FILES_SRC = \
 	avm.cpp \
 	errors.cpp \
 	OperandDouble.cpp \
+	OperandFactory.cpp \
 	OperandFloat.cpp \
 	OperandInt8.cpp \
 	OperandInt16.cpp \
