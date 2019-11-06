@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:50:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 12:33:43 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/05 17:29:23 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ LexerFail::LexerFail(std::vector<std::tuple<int, std::string>> errors) \
 							throw() {
 	std::stringstream	ss;
 
-	ss << "Lexer failed: " << errors.size() << " lexical error." << std::endl;
+	ss << "Lexer failed: " << errors.size() << " lexical error(s)." << std::endl;
 	for (auto error : errors) {
 		ss << "instruction " << std::get<0>(error) << ": " \
 			<< std::get<1>(error) << std::endl;
@@ -36,7 +36,7 @@ ParserFail::ParserFail(std::vector<std::tuple<int, std::string>> errors) \
 							throw() {
 	std::stringstream	ss;
 
-	ss << "Lexer failed: " << errors.size() << " syntactic token." << std::endl;
+	ss << "Parser failed: " << errors.size() << " syntactic error(s)." << std::endl;
 	for (auto error : errors) {
 		ss << "instruction " << std::get<0>(error) << ": " \
 			<< std::get<1>(error) << std::endl;

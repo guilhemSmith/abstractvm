@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:20:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 17:57:25 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/05 18:37:35 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ public:
 	TokenOperation &			operator=(TokenOperation const & rhs);
 
 	eOperationType				getOperationType(void) const;
+	bool						expectArg(void) const;
 	virtual eTokenType			getType(void) const;
 	virtual std::string			toString(void) const;
 	static std::string			opTypeToString(eOperationType const & type);		

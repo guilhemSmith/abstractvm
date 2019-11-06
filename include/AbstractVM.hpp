@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 14:04:56 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 10:45:59 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@
 # include <list>
 # include <regex>
 # include <exception>
-# include "IToken.hpp"
 # include "IOperand.hpp"
+# include "IToken.hpp"
 # include "OperandFactory.hpp"
+
+class IInstruction;
 
 class AbstractVM {
 
@@ -45,7 +47,7 @@ public:
 
 	void						readInput(std::istream & input_src) \
 									throw(AbstractVMException);
-	void						parseInstruction(void) \
+	void						parseTokens(void) \
 									throw(AbstractVMException);
 	void						printList(void) const;
 	void						clearList(void);
@@ -57,9 +59,13 @@ private:
 	OperandFactory				factory;
 	std::list<std::vector<IToken *>> \
 								input_list;
+	std::list<IInstruction *>		instruction_list;
+	std::list<IOperand *>		memory;
 
-	void						checkErrors(void) throw(AbstractVMException);
+	void						checkLexErrors(void) const \
+									throw(AbstractVMException);
 	std::vector<IToken *>		tokenize(std::stringstream & ss) const;
+	void						addInstruction(std::vector<IToken *> tok);
 	IToken *					createValue(std::string value_raw) const;
 
 	static double const			epsilon;

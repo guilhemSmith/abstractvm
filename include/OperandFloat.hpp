@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/04 13:41:18 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 10:47:33 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ class OperandFloat: public IOperand {
 public:
 	OperandFloat(float value, std::string const str);
 	virtual						~OperandFloat(void);
+	OperandFloat(OperandFloat const & rhs);
 
 	virtual int					getPrecision(void) const;
 	virtual eOperandType		getType(void) const;
@@ -35,7 +36,6 @@ public:
 
 private:
 	OperandFloat(void);
-	OperandFloat(OperandFloat const & rhs);
 	OperandFloat& 				operator=(OperandFloat const & rhs);
 
 	float						value;

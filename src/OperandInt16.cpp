@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/04 11:33:07 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 10:54:06 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 OperandInt16::OperandInt16(int16_t value, std::string const str): \
 					value(value), str(str) {}
 OperandInt16::~OperandInt16(void) {}
+OperandInt16::OperandInt16(OperandInt16 const & rhs): \
+					value(rhs.value), str(rhs.str) {} 
 
 int					OperandInt16::getPrecision(void) const {
 	return 2;

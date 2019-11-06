@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:31:13 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/14 18:01:18 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/05 18:37:14 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ TokenOperation &	TokenOperation::operator=(TokenOperation const & rhs) {
 
 eOperationType		TokenOperation::getOperationType(void) const {
 	return this->type;
+}
+
+bool				TokenOperation::expectArg(void) const {
+	return this->type == eOperationType::Push \
+		|| this->type == eOperationType::Assert; 
 }
 
 eTokenType			TokenOperation::getType(void) const {

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 14:04:27 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 10:46:06 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ std::string const				AbstractVM::get_operand_type[] = {
 	"double",
 };
 
-AbstractVM::AbstractVM(void) {}
+AbstractVM::AbstractVM(void): factory(), input_list(), memory() {}
 
 AbstractVM::~AbstractVM(void) {}
 
@@ -57,20 +57,16 @@ void						AbstractVM::readInput(std::istream & input_src) \
 			break;
 		}
 	}
-	this->checkErrors();
+	this->checkLexErrors();
 }
 
-void						AbstractVM::parseInstruction(void) \
+void						AbstractVM::parseTokens(void) \
 								throw (AbstractVMException) {
 	std::vector<std::tuple<int, std::string>>	error_vec;
 	size_t										i = 1;
 	
 	for (auto instruction : this->input_list) {
-		std::cout << "instruction " << i << std::endl;
-		// this->checkInstruction();
-		if (error_vec.size() == 0) {
-
-		}
+		this->addInstruction(instruction);
 		i++;
 	}
 }
@@ -80,7 +76,7 @@ void						AbstractVM::printList(void) const {
 	std::vector<IToken *>::const_iterator				tok;
 
 	std::cout << " --- " << std::endl \
-		<< "Printing input instructions list:" << std::endl;
+		<< "Printing input tokens list:" << std::endl;
 	for (auto instruction : this->input_list) {
 		for (auto token : instruction) {
 			std::cout << token->toString();
@@ -102,7 +98,7 @@ void						AbstractVM::clearList(void) {
 	this->input_list = std::list<std::vector<IToken *>>();
 }
 
-void						AbstractVM::checkErrors(void) \
+void						AbstractVM::checkLexErrors(void) const \
 								throw(AbstractVMException) {
 	std::vector<std::tuple<int, std::string>>	error_vec;
 	size_t										i = 1;
@@ -136,6 +132,10 @@ std::vector<IToken *>	AbstractVM::tokenize(std::stringstream & ss) const {
 		}
 	}
 	return vec;
+}
+
+void					AbstractVM::addInstruction(std::vector<IToken *> tok) {
+	
 }
 
 IToken *				AbstractVM::createValue(std::string value_raw) const {
