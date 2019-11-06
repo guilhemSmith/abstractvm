@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:16:34 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 16:07:40 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 17:08:04 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ std::string const	InstructionError::getErrorMessage(void) const {
 	return ss.str();
 }
 
-void				InstructionError::activate(void) const \
-								throw(AbstractVM::AbstractVMException) {}
+void				InstructionError::run(std::list<IOperand const *> & mem) \
+								const throw(AbstractVM::AbstractVMException) {
+	(void)mem;
+}
 
 eInstructionType	InstructionError::getType(void) const {
 	return eInstructionType::InstError;

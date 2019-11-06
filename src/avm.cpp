@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:16:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 16:06:05 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 17:15:25 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int		main(int argc, char *argv[]) {
 		try {
 			avm.readInput(std::cin);
 			avm.parseTokens();
+			avm.runInstructions();
 		} catch (AbstractVM::AbstractVMException lf) {
 			std::cerr << lf.what() << std::endl;
 		}
@@ -41,6 +42,7 @@ int		main(int argc, char *argv[]) {
 				try {
 					avm.readInput(file_stream);
 					avm.parseTokens();
+					avm.runInstructions();
 				} catch (AbstractVM::AbstractVMException lf) {
 					std::cerr << lf.what() << std::endl;
 				}

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 16:05:53 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 17:16:49 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,13 @@ void						AbstractVM::parseTokens(void) \
 	this->checkSynErrors();
 }
 
+void						AbstractVM::runInstructions(void) \
+									throw(AbstractVMException) {
+	for (auto instruction: this->instruction_list) {
+		instruction->run(this->memory);
+	}
+}
+
 void						AbstractVM::printLists(void) const {
 	std::list<std::vector<IToken *>>::const_iterator	vec;
 	std::vector<IToken *>::const_iterator				tok;
@@ -93,6 +100,16 @@ void						AbstractVM::printLists(void) const {
 		std::cout << "[" << instruction->toString() << "]" << std::endl;
 	}
 	std::cout << " --- " << std::endl;
+	std::cout << "Printing ";
+	this->printMemory(std::cout);
+	std::cout << " --- " << std::endl;
+}
+
+void						AbstractVM::printMemory(std::ostream & out) const {
+	out << "stack:" <<std::endl;
+	for (auto value: this->memory) {
+		out << value->toString() << std::endl;
+	}
 }
 
 void						AbstractVM::clearLists(void) {
@@ -109,6 +126,7 @@ void						AbstractVM::clearLists(void) {
 		delete instruction;
 	}
 	this->instruction_list = std::list<IInstruction *>();
+	this->memory = std::list<IOperand const *>();
 }
 
 void						AbstractVM::checkLexErrors(void) const \

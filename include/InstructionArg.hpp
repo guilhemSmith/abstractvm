@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 10:04:53 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 15:46:56 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 17:06:17 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ public:
 	InstructionArg(eOperationType const type, IOperand const * argument);
 	virtual ~InstructionArg(void);
 
-	virtual void				activate(void) const \
+	virtual void				run(std::list<IOperand const *> & mem) const \
 									throw(AbstractVM::AbstractVMException);
 	virtual eInstructionType	getType(void) const;
 	virtual std::string			toString(void) const; 
@@ -31,9 +31,22 @@ public:
 private:
 	InstructionArg(void);
 	InstructionArg(InstructionArg const & rhs);
-	InstructionArg &		operator=(InstructionArg const & rhs);
+	InstructionArg &			operator=(InstructionArg const & rhs);
 
-	eOperationType			type;
-	IOperand const *		argument;
+	eOperationType				type;
+	IOperand const *			argument;
+
+	void						instrPush(std::list<IOperand const *> & mem) \
+									const \
+									throw(AbstractVM::AbstractVMException);
+	void						instrAssert(std::list<IOperand const *> & mem) \
+									const \
+									throw(AbstractVM::AbstractVMException);
+
+
+	typedef void (InstructionArg::*tInstrSelect) \
+								(std::list<IOperand const *> & mem) const;
+
+	static tInstrSelect const	select[TokenOperation::last_operation_arg + 1];
 };
 #endif

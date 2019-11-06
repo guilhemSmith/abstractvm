@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 10:04:53 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 11:49:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 16:43:31 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ public:
 	virtual ~InstructionError(void);
 
 	std::string const			getErrorMessage(void) const;
-	virtual void				activate(void) const \
+	virtual void				run(std::list<IOperand const *> & mem) const \
 									throw(AbstractVM::AbstractVMException);
 	virtual eInstructionType	getType(void) const;
 	virtual std::string			toString(void) const;

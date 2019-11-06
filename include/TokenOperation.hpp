@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:20:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 15:10:51 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 17:21:59 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ public:
 	static eOperationType		stringToOpType(std::string const & str);		
 
 	static eOperationType const	last_operation_arg = eOperationType::Assert; 
+	static eOperationType const	last_operation_simple = eOperationType::Exit; 
 
 private:
 	TokenOperation(void);
