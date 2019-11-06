@@ -6,7 +6,7 @@
 #    By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/06 15:16:06 by gsmith            #+#    #+#              #
-#    Updated: 2019/11/06 11:49:35 by gsmith           ###   ########.fr        #
+#    Updated: 2019/11/06 15:53:57 by gsmith           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,9 @@ FILES_SRC = \
 	AbstractVM.cpp \
 	avm.cpp \
 	errors.cpp \
+	InstructionArg.cpp \
 	InstructionError.cpp \
+	InstructionSimple.cpp \
 	OperandDouble.cpp \
 	OperandFactory.cpp \
 	OperandFloat.cpp \

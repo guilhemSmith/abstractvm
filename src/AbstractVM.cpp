@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 14:31:04 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 15:58:03 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,26 +164,32 @@ std::vector<IToken *>	AbstractVM::tokenize(std::stringstream & ss) const {
 void					AbstractVM::addInstruction(std::vector<IToken *> tok) {
 	IInstruction *		new_instr;
 	TokenOperation *	first;
+	std::string			inst_str;
 
-	if (tok.size() == 0) {
-		return ;
-	}
+	inst_str = AbstractVM::tokensToString(tok);
 	first = dynamic_cast<TokenOperation *>(tok[0]);
 	if (first != NULL) {
 		if ((first->expectArg() && tok.size() == 2) \
 			|| (!first->expectArg() && tok.size() == 1)) {
-			new_instr = new InstructionError("not impl yet", \
-				eInstructionErrorType::IncorrectInstr);
+			if (first->expectArg()) {
+				TokenValue *	second = dynamic_cast<TokenValue *>(tok[1]);
+				if (second != NULL) {
+					new_instr = \
+						new InstructionArg(first->getOperationType(), \
+							second->getOperand());
+				} else {
+					new_instr = new InstructionError(inst_str, IncorrectInstr);
+				}
+			} else {
+				new_instr = new InstructionSimple(first->getOperationType());
+			}
 		} else if (first->expectArg() && tok.size() < 2) {
-			new_instr = new InstructionError(AbstractVM::tokensToString(tok), \
-					eInstructionErrorType::MissingArg);
+			new_instr = new InstructionError(inst_str, MissingArg);
 		} else {
-			new_instr = new InstructionError(AbstractVM::tokensToString(tok), \
-					eInstructionErrorType::TooManyArg);
+			new_instr = new InstructionError(inst_str, TooManyArg);
 		}
 	} else {
-		new_instr = new InstructionError(AbstractVM::tokensToString(tok), \
-				eInstructionErrorType::IncorrectInstr);
+		new_instr = new InstructionError(inst_str, IncorrectInstr);
 	}
 	this->instruction_list.push_back(new_instr);
 }

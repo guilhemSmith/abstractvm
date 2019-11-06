@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:16:34 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 11:50:02 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 15:55:21 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ std::string const	InstructionError::getErrorMessage(void) const {
 
 	ss << "'" << this->instruction << "': ";
 	if (this->type == TooManyArg) {
-		ss << "Too may arguments given." ;
+		ss << "Too many arguments given." ;
 	} else if (this->type == MissingArg) {
 		ss << "this instruction need an argument.";
 	} else {

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:20:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 14:09:11 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 15:10:51 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 
 enum eOperationType {
 	Push,
+	Assert,
 	Pop,
 	Dump,
-	Assert,
 	Add,
 	Sub,
 	Mul,
@@ -43,6 +43,8 @@ public:
 	virtual std::string			toString(void) const;
 	static std::string			opTypeToString(eOperationType const & type);		
 	static eOperationType		stringToOpType(std::string const & str);		
+
+	static eOperationType const	last_operation_arg = eOperationType::Assert; 
 
 private:
 	TokenOperation(void);

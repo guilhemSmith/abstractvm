@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:31:13 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 11:45:34 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 15:50:08 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 std::string const	TokenOperation::type_string_tab[] = {
 	"push",
+	"assert",
 	"pop",
 	"dump",
-	"assert",
 	"add",
 	"sub",
 	"Mul",
@@ -42,8 +42,7 @@ eOperationType		TokenOperation::getOperationType(void) const {
 }
 
 bool				TokenOperation::expectArg(void) const {
-	return this->type == eOperationType::Push \
-		|| this->type == eOperationType::Assert; 
+	return this->type <= TokenOperation::last_operation_arg; 
 }
 
 eTokenType			TokenOperation::getType(void) const {
