@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:54:33 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 15:53:45 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 16:07:13 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ eInstructionType	InstructionArg::getType(void) const {
 std::string			InstructionArg::toString(void) const {
 	std::stringstream	ss;
 
-	ss << '{' << TokenOperation::opTypeToString(this->type) << ':' \
-		<< this->argument->toString() << '}';
+	ss << TokenOperation::opTypeToString(this->type) << ' ' \
+		<< this->argument->toString();
 	return ss.str();
 }

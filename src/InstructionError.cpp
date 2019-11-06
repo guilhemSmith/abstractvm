@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:16:34 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 15:55:21 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 16:07:40 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ eInstructionType	InstructionError::getType(void) const {
 std::string			InstructionError::toString(void) const {
 	std::stringstream	ss;
 
-	ss << "{err:(";
+	ss << "err:(";
 	if (this->type == TooManyArg) {
 		ss << "tooManyArg";
 	} else if (this->type == MissingArg) {
@@ -49,6 +49,6 @@ std::string			InstructionError::toString(void) const {
 	} else {
 		ss << "incorrectInstr";
 	}
-	ss << ")'" << this->instruction << "'}";
+	ss << "): " << this->instruction;
 	return ss.str();
 }

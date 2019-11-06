@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 15:58:03 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 16:05:53 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,22 @@ void						AbstractVM::parseTokens(void) \
 	this->checkSynErrors();
 }
 
-void						AbstractVM::printList(void) const {
+void						AbstractVM::printLists(void) const {
 	std::list<std::vector<IToken *>>::const_iterator	vec;
 	std::vector<IToken *>::const_iterator				tok;
 
 	std::cout << " --- " << std::endl \
-		<< "Printing input tokens list:" << std::endl;
+		<< "Printing tokens list:" << std::endl;
 	for (auto instruction : this->input_list) {
 		for (auto token : instruction) {
 			std::cout << "{" << token->toString() << "}";
 		}
 		std::cout << std::endl;
+	}
+	std::cout << " --- " << std::endl;
+	std::cout << "Printing instruction list:" << std::endl;
+	for (auto instruction : this->instruction_list) {
+		std::cout << "[" << instruction->toString() << "]" << std::endl;
 	}
 	std::cout << " --- " << std::endl;
 }

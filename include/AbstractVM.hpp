@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 14:20:16 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 16:05:16 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ public:
 									throw(AbstractVMException);
 	void						parseTokens(void) \
 									throw(AbstractVMException);
-	void						printList(void) const;
+	void						printLists(void) const;
 	void						clearLists(void);
 
 	static std::string			tokensToString(std::vector<IToken *> tok);
@@ -61,7 +61,7 @@ private:
 	OperandFactory				factory;
 	std::list<std::vector<IToken *>> \
 								input_list;
-	std::list<IInstruction *>		instruction_list;
+	std::list<IInstruction *>	instruction_list;
 	std::list<IOperand *>		memory;
 
 	void						checkLexErrors(void) const \
