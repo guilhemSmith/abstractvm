@@ -6,21 +6,24 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 10:46:06 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 12:01:30 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "system.hpp"
 #include "errors.hpp"
 #include "AbstractVM.hpp"
-#include "TokenOperation.hpp"
-#include "TokenError.hpp"
-#include "TokenValue.hpp"
+#include "InstructionArg.hpp"
+#include "InstructionError.hpp"
+#include "InstructionSimple.hpp"
 #include "OperandInt8.hpp"
 #include "OperandInt16.hpp"
 #include "OperandInt32.hpp"
 #include "OperandFloat.hpp"
 #include "OperandDouble.hpp"
+#include "TokenOperation.hpp"
+#include "TokenError.hpp"
+#include "TokenValue.hpp"
 
 std::regex const				AbstractVM::regex_orand = \
 									std::regex("^(\\w+)\\(([+-]?[\\d.]+)\\)$");
@@ -79,7 +82,7 @@ void						AbstractVM::printList(void) const {
 		<< "Printing input tokens list:" << std::endl;
 	for (auto instruction : this->input_list) {
 		for (auto token : instruction) {
-			std::cout << token->toString();
+			std::cout << "{" << token->toString() << "}";
 		}
 		std::cout << std::endl;
 	}
@@ -135,7 +138,11 @@ std::vector<IToken *>	AbstractVM::tokenize(std::stringstream & ss) const {
 }
 
 void					AbstractVM::addInstruction(std::vector<IToken *> tok) {
-	
+	IInstruction *		new_instr;
+	if (tok.size() > 2) {
+		// new_instr = new InstructionError();
+	}
+	this->instruction_list.push_back(new_instr);
 }
 
 IToken *				AbstractVM::createValue(std::string value_raw) const {

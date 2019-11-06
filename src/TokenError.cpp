@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:31:13 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 10:18:40 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 11:46:06 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,5 @@ eTokenType			TokenError::getType(void) const {
 }
 
 std::string 		TokenError::toString(void) const {
-	std::string		output;
-	output += "[err:(";
-	if (this->type == ErrValue) {
-		output += "value";
-	} else if (this->type == ErrValueType) {
-		output += "valueType";
-	} else {
-		output += "token";
-	}
-	output += ")'";
-	output += this->input_value;
-	output += "']";
-	return output;
+	return this->input_value;
 }

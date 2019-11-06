@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:31:13 by gsmith            #+#    #+#             */
-/*   Updated: 2019/10/19 15:05:05 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 11:55:43 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,5 @@ eTokenType			TokenValue::getType(void) const {
 }
 
 std::string 		TokenValue::toString(void) const {
-	std::string		output;
-	output += "[val:'";
-	output += this->operand->toString();
-	output += "']";
-	return output;
+	return this->operand->toString();
 }

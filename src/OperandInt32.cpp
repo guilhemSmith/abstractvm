@@ -6,14 +6,14 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 10:54:28 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 11:59:35 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "OperandInt32.hpp"
 
 OperandInt32::OperandInt32(int32_t value, std::string const str): \
-					value(value), str(str) {}
+					value(value), str("int32(" + str + ")") {}
 OperandInt32::~OperandInt32(void) {}
 OperandInt32::OperandInt32(OperandInt32 const & rhs): \
 					value(rhs.value), str(rhs.str) {} 

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 10:04:53 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 10:51:19 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 11:47:31 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ public:
 	virtual std::string			toString(void) const;
 private:
 	InstructionArg(InstructionArg const & rhs);
-	InstructionArg &		operator=(InstructionArg & const rhs);
+	InstructionArg &		operator=(InstructionArg const & rhs);
 
 	IOperand *				argument;
 };

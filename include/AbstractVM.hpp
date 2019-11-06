@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 10:45:59 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 11:46:50 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ public:
 
 private:
 	AbstractVM(const AbstractVM &rhs);
-	AbstractVM&					operator=(const AbstractVM &rhs);
+	AbstractVM &				operator=(const AbstractVM & rhs);
 	
 	OperandFactory				factory;
 	std::list<std::vector<IToken *>> \

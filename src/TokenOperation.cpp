@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:31:13 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 18:37:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 11:45:34 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,7 @@ eTokenType			TokenOperation::getType(void) const {
 }
 
 std::string 		TokenOperation::toString(void) const {
-	std::string		output;
-	output += "[ope:'";
-	output += TokenOperation::opTypeToString(this->type);
-	output += "']";
-	return output;
+	return TokenOperation::opTypeToString(this->type);
 }
 
 std::string			TokenOperation::opTypeToString(eOperationType const & type) {
