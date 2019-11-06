@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 11:46:50 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 14:20:16 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ public:
 	void						parseTokens(void) \
 									throw(AbstractVMException);
 	void						printList(void) const;
-	void						clearList(void);
+	void						clearLists(void);
+
+	static std::string			tokensToString(std::vector<IToken *> tok);
 
 private:
 	AbstractVM(const AbstractVM &rhs);
@@ -63,6 +65,8 @@ private:
 	std::list<IOperand *>		memory;
 
 	void						checkLexErrors(void) const \
+									throw(AbstractVMException);
+	void						checkSynErrors(void) const \
 									throw(AbstractVMException);
 	std::vector<IToken *>		tokenize(std::stringstream & ss) const;
 	void						addInstruction(std::vector<IToken *> tok);

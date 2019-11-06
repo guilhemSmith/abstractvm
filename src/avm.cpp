@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:16:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 10:41:36 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 14:32:15 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int		main(int argc, char *argv[]) {
 		} catch (AbstractVM::AbstractVMException lf) {
 			std::cerr << lf.what() << std::endl;
 		}
-		avm.printList();
-		avm.clearList();
+		// avm.printList();
+		avm.clearLists();
 	} else {
 		file_index = 0;
 		while (++file_index < argc) {
@@ -50,8 +50,8 @@ int		main(int argc, char *argv[]) {
 					<< std::endl;
 			}
 			file_stream.close();
-			avm.printList();
-			avm.clearList();
+			// avm.printList();
+			avm.clearLists();
 		}
 	}
 	return 0;

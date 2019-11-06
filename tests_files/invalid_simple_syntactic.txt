@@ -1,0 +1,6 @@
+push
+push  int32(12) float(30.12)
+add  int8(120)
+double(42.42)
+pop
+exit

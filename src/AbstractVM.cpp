@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 12:01:30 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/06 14:31:04 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void						AbstractVM::parseTokens(void) \
 		this->addInstruction(instruction);
 		i++;
 	}
+	this->checkSynErrors();
 }
 
 void						AbstractVM::printList(void) const {
@@ -89,7 +90,7 @@ void						AbstractVM::printList(void) const {
 	std::cout << " --- " << std::endl;
 }
 
-void						AbstractVM::clearList(void) {
+void						AbstractVM::clearLists(void) {
 	std::list<std::vector<IToken *>>::iterator	vec;
 	std::vector<IToken *>::iterator				tok;
 
@@ -99,6 +100,10 @@ void						AbstractVM::clearList(void) {
 		}
 	}
 	this->input_list = std::list<std::vector<IToken *>>();
+	for (auto instruction: this->instruction_list) {
+		delete instruction;
+	}
+	this->instruction_list = std::list<IInstruction *>();
 }
 
 void						AbstractVM::checkLexErrors(void) const \
@@ -121,6 +126,25 @@ void						AbstractVM::checkLexErrors(void) const \
 	}
 }
 
+void						AbstractVM::checkSynErrors(void) const \
+								throw(AbstractVMException) {
+	std::vector<std::tuple<int, std::string>>	error_vec;
+	size_t										i = 1;
+	
+	for (auto instruction : this->instruction_list) {
+		if (instruction->getType() == eInstructionType::InstError) {
+			InstructionError * const	error = \
+				dynamic_cast<InstructionError *>(instruction);
+			std::tuple<int, std::string> msg(i, error->getErrorMessage());
+			error_vec.push_back(msg);
+		}
+		i++;
+	}
+	if (error_vec.size() > 0) {
+		throw ParserFail(error_vec);
+	}
+}
+
 std::vector<IToken *>	AbstractVM::tokenize(std::stringstream & ss) const {
 	std::string				input_buf;
 	eOperationType			opType;
@@ -139,8 +163,27 @@ std::vector<IToken *>	AbstractVM::tokenize(std::stringstream & ss) const {
 
 void					AbstractVM::addInstruction(std::vector<IToken *> tok) {
 	IInstruction *		new_instr;
-	if (tok.size() > 2) {
-		// new_instr = new InstructionError();
+	TokenOperation *	first;
+
+	if (tok.size() == 0) {
+		return ;
+	}
+	first = dynamic_cast<TokenOperation *>(tok[0]);
+	if (first != NULL) {
+		if ((first->expectArg() && tok.size() == 2) \
+			|| (!first->expectArg() && tok.size() == 1)) {
+			new_instr = new InstructionError("not impl yet", \
+				eInstructionErrorType::IncorrectInstr);
+		} else if (first->expectArg() && tok.size() < 2) {
+			new_instr = new InstructionError(AbstractVM::tokensToString(tok), \
+					eInstructionErrorType::MissingArg);
+		} else {
+			new_instr = new InstructionError(AbstractVM::tokensToString(tok), \
+					eInstructionErrorType::TooManyArg);
+		}
+	} else {
+		new_instr = new InstructionError(AbstractVM::tokensToString(tok), \
+				eInstructionErrorType::IncorrectInstr);
 	}
 	this->instruction_list.push_back(new_instr);
 }
@@ -165,6 +208,20 @@ IToken *				AbstractVM::createValue(std::string value_raw) const {
 		return new TokenError(ErrValueType, value_raw);
 	}
 	return new TokenError(ErrToken, value_raw);
+}
+
+std::string				AbstractVM::tokensToString(std::vector<IToken *> tok) {
+	std::stringstream	ss;
+	int					i = tok.size();
+
+	for (auto token: tok) {
+		i--;
+		ss << token->toString();
+		if (i > 0) {
+			ss << ' ';
+		}
+	}
+	return ss.str();
 }
 
 AbstractVM::AbstractVMException::AbstractVMException(void) throw() {
