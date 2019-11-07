@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 11:35:46 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 12:13:38 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ std::string const				AbstractVM::get_operand_type[] = {
 };
 
 AbstractVM::AbstractVM(void): factory(), input_list(), memory(), \
-							exit_flag(false) {}
+							exit_flag(false), line(0) {}
 
 AbstractVM::~AbstractVM(void) {}
 
@@ -79,6 +79,7 @@ void						AbstractVM::parseTokens(void) \
 void						AbstractVM::runInstructions(void) \
 									throw(AbstractVMException) {
 	for (auto instruction: this->instruction_list) {
+		this->line++;
 		if (this->exit_flag) {
 		throw IncorrectExit(false);
 		}
@@ -135,6 +136,11 @@ void						AbstractVM::reset(void) {
 	this->instruction_list = std::list<IInstruction *>();
 	this->memory = std::list<IOperand const *>();
 	this->exit_flag = false;
+	this->line = 0;
+}
+
+size_t const &				AbstractVM::getLine(void) const {
+	return this->line;
 }
 
 void						AbstractVM::checkLexErrors(void) const \

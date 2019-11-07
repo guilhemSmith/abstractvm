@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:54:33 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 11:40:49 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:07:53 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,15 @@ void						InstructionSimple::instrPop \
 									bool & exit) const \
 								throw(AbstractVM::AbstractVMException) {
 	(void)exit;
-	mem.pop_back(); 
+	mem.pop_front(); 
 }
 void						InstructionSimple::instrDump \
 								(std::list<IOperand const *> & mem, \
 									bool & exit) const \
 								throw(AbstractVM::AbstractVMException) {
 	(void)exit;
-	for (auto value = mem.rbegin(); value != mem.rend(); value++) {
-		IOperand const *	val = *value; 
-		std::cout << val->toString() << std::endl;
+	for (auto value: mem) {
+		std::cout << value->toString() << std::endl;
 	}
 }
 void						InstructionSimple::instrAdd \

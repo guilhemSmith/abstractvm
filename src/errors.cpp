@@ -6,12 +6,13 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:50:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 11:42:08 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:13:47 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "system.hpp"
 #include "errors.hpp"
+#include "TokenValue.hpp"
 
 
 LexerFail::LexerFail(std::vector<std::tuple<int, std::string>> errors) \
@@ -63,3 +64,25 @@ IncorrectExit::IncorrectExit(const IncorrectExit &rhs) throw() {
 }
 
 IncorrectExit::~IncorrectExit(void) throw() {}
+
+AssertFail::AssertFail(IOperand const * expected, \
+						IOperand const * real) throw() {
+	std::stringstream	ss;
+
+	ss << "Assert failed: expected '" \
+		<< TokenValue::operandTypeToString[expected->getType()] << '(' \
+		<< expected->toString() << ")', ";
+	if (real != NULL) {
+		ss << "found '" << TokenValue::operandTypeToString[real->getType()] \
+			<< '(' << real->toString() << ")'.";
+	} else {
+		ss << "but the memory was empty.";
+	}
+	this->message = ss.str();
+}
+
+AssertFail::AssertFail(const AssertFail &rhs) throw() {
+	this->message = rhs.message;
+}
+
+AssertFail::~AssertFail(void) throw() {}

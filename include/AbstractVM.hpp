@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 18:06:28 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 10:41:00 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 12:13:30 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ public:
 	void						printLists(void) const;
 	void						printMemory(std::ostream & out) const;
 	void						reset(void);
+	size_t const &				getLine(void) const;
 
 	static std::string			tokensToString(std::vector<IToken *> tok);
 
@@ -67,6 +68,7 @@ private:
 	std::list<IInstruction *>	instruction_list;
 	std::list<IOperand const *>	memory;
 	bool						exit_flag;
+	size_t						line;
 
 	void						checkLexErrors(void) const \
 									throw(AbstractVMException);

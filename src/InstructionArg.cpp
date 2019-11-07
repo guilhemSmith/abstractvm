@@ -6,12 +6,13 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:54:33 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 11:03:53 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:14:15 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "InstructionArg.hpp"
 #include "TokenValue.hpp"
+#include "errors.hpp"
 
 InstructionArg::tInstrSelect const		InstructionArg::select[] = {
 	&InstructionArg::instrPush,
@@ -48,12 +49,22 @@ std::string			InstructionArg::toString(void) const {
 void				InstructionArg::instrPush \
 						(std::list<IOperand const *> & mem) const \
 						throw(AbstractVM::AbstractVMException) {
-	mem.push_back(this->argument);
+	mem.push_front(this->argument);
 }
 
 void				InstructionArg::instrAssert \
 						(std::list<IOperand const *> & mem) const \
 						throw(AbstractVM::AbstractVMException) {
-	(void)mem;
-	std::cout << "to implement: Assert" << std::endl; 
+	IOperand const *	expected;
+	IOperand const *	real;
+
+	expected = this->argument;
+	if (mem.size() == 0) {
+		throw AssertFail(expected, NULL);
+	}
+	real = mem.front();
+	if (expected->getType() != real->getType() \
+		|| expected->toString() != real->toString()) {
+		throw AssertFail(expected, real);
+	}
 }

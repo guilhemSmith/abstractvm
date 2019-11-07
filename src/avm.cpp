@@ -6,12 +6,13 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:16:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 10:40:29 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:14:45 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "system.hpp"
 #include "AbstractVM.hpp"
+#include "errors.hpp"
 
 int		main(int argc, char *argv[]) {
 	int				file_index;
@@ -22,8 +23,13 @@ int		main(int argc, char *argv[]) {
 			avm.readInput(std::cin);
 			avm.parseTokens();
 			avm.runInstructions();
-		} catch (AbstractVM::AbstractVMException lf) {
+		} catch (LexerFail lf) {
 			std::cerr << lf.what() << std::endl;
+		} catch (ParserFail pf) {
+			std::cerr << pf.what() << std::endl;
+		} catch (AbstractVM::AbstractVMException avm_exc) {
+			std::cerr << "[instruction:" << avm.getLine() << "] - " \
+				<< avm_exc.what() << std::endl;
 		}
 		avm.printLists();
 		avm.reset();
@@ -43,8 +49,13 @@ int		main(int argc, char *argv[]) {
 					avm.readInput(file_stream);
 					avm.parseTokens();
 					avm.runInstructions();
-				} catch (AbstractVM::AbstractVMException lf) {
+				} catch (LexerFail lf) {
 					std::cerr << lf.what() << std::endl;
+				} catch (ParserFail pf) {
+					std::cerr << pf.what() << std::endl;
+				} catch (AbstractVM::AbstractVMException avm_exc) {
+					std::cerr << "[instruction:" << avm.getLine() << "] - " \
+						<< avm_exc.what() << std::endl;
 				}
 			} else {
 				std::cerr << "[File: " << file_index \

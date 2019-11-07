@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:48:12 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 11:35:00 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 11:52:44 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,18 @@ class IncorrectExit: public AbstractVM::AbstractVMException {
 	private:
 		IncorrectExit(void) throw();
 		IncorrectExit&				operator=(const ParserFail &rhs) throw();
+	
+};
+
+class AssertFail: public AbstractVM::AbstractVMException {
+	public:
+		AssertFail(IOperand const * expected, IOperand const * real) throw();
+		AssertFail(const AssertFail &rhs) throw();
+		virtual ~AssertFail(void) throw();
+
+	private:
+		AssertFail(void) throw();
+		AssertFail&				operator=(const ParserFail &rhs) throw();
 	
 };
 
