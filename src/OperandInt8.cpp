@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 10:17:10 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:34:06 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,8 @@ IOperand const *	OperandInt8::operator%( IOperand const& rhs ) const {
 
 std::string const &	OperandInt8::toString(void) const {
 	return this->str;
+}
+
+char				OperandInt8::getChar(void) const {
+	return (char)this->value;
 }

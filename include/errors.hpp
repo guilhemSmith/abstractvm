@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:48:12 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 11:52:44 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:35:04 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,18 @@ class AssertFail: public AbstractVM::AbstractVMException {
 	private:
 		AssertFail(void) throw();
 		AssertFail&				operator=(const ParserFail &rhs) throw();
+	
+};
+
+class PrintFail: public AbstractVM::AbstractVMException {
+	public:
+		PrintFail(bool wrong_type) throw();
+		PrintFail(const PrintFail &rhs) throw();
+		virtual ~PrintFail(void) throw();
+
+	private:
+		PrintFail(void) throw();
+		PrintFail&				operator=(const ParserFail &rhs) throw();
 	
 };
 

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 10:47:38 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:32:28 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ public:
 	virtual IOperand const *	operator%( IOperand const& rhs ) const;
 
 	virtual std::string const &	toString(void) const;
+	char						getChar(void) const;
 
 
 private:

@@ -6,12 +6,14 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:54:33 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:07:53 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:37:41 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "InstructionSimple.hpp"
 #include "TokenValue.hpp"
+#include "OperandInt8.hpp"
+#include "errors.hpp"
 
 InstructionSimple::tInstrSelect const		InstructionSimple::select[] = {
 	&InstructionSimple::instrPop,
@@ -105,9 +107,17 @@ void						InstructionSimple::instrPrint \
 								(std::list<IOperand const *> & mem, \
 									bool & exit) const \
 								throw(AbstractVM::AbstractVMException) {
-	(void)mem;
 	(void)exit;
-	std::cout << "to implement: Print" << std::endl; 
+	OperandInt8 const *	value;
+
+	if (mem.size() == 0) {
+		throw PrintFail(false);
+	}
+	value = dynamic_cast<OperandInt8 const *>(mem.front());
+	if (value == NULL) {
+		throw PrintFail(true);
+	}
+	std::cout << value->getChar();
 }
 void						InstructionSimple::instrExit \
 								(std::list<IOperand const *> & mem, \

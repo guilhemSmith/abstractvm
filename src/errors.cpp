@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:50:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:13:47 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:37:08 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,3 +86,21 @@ AssertFail::AssertFail(const AssertFail &rhs) throw() {
 }
 
 AssertFail::~AssertFail(void) throw() {}
+
+PrintFail::PrintFail(bool wrong_type) throw() {
+	std::stringstream	ss;
+
+	ss << "Print failed: ";
+	if (wrong_type) {
+		ss << "the value was not of type int8.";
+	} else {
+		ss << "the memory was empty.";
+	}
+	this->message = ss.str();
+}
+
+PrintFail::PrintFail(const PrintFail &rhs) throw() {
+	this->message = rhs.message;
+}
+
+PrintFail::~PrintFail(void) throw() {}
