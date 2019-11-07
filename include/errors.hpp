@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:48:12 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:35:04 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:45:47 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,17 @@ class PrintFail: public AbstractVM::AbstractVMException {
 	private:
 		PrintFail(void) throw();
 		PrintFail&				operator=(const ParserFail &rhs) throw();
+	
+};
+
+class PopFail: public AbstractVM::AbstractVMException {
+	public:
+		PopFail(void) throw();
+		PopFail(const PopFail &rhs) throw();
+		virtual ~PopFail(void) throw();
+
+	private:
+		PopFail&				operator=(const ParserFail &rhs) throw();
 	
 };
 

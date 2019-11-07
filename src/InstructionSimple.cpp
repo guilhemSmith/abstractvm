@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:54:33 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:37:41 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:45:27 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ void						InstructionSimple::instrPop \
 									bool & exit) const \
 								throw(AbstractVM::AbstractVMException) {
 	(void)exit;
+	if (mem.size() == 0) {
+		throw PopFail();
+	}
 	mem.pop_front(); 
 }
 void						InstructionSimple::instrDump \

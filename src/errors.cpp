@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:50:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:37:08 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 13:48:01 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,3 +104,13 @@ PrintFail::PrintFail(const PrintFail &rhs) throw() {
 }
 
 PrintFail::~PrintFail(void) throw() {}
+
+PopFail::PopFail(void) throw() {
+	this->message = "Tried to pop on an empty memory.";
+}
+
+PopFail::PopFail(const PopFail &rhs) throw() {
+	this->message = rhs.message;
+}
+
+PopFail::~PopFail(void) throw() {}
