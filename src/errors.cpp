@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:50:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 17:29:23 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 11:42:08 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,17 @@ ParserFail::ParserFail(const ParserFail &rhs) throw() {
 }
 
 ParserFail::~ParserFail(void) throw() {}
+
+IncorrectExit::IncorrectExit(bool missing) throw() {
+	if (missing) {
+		this->message = "Execution ended without an Exit instruction.";
+	} else {
+		this->message = "Exit called before the last instruction.";
+	}
+}
+
+IncorrectExit::IncorrectExit(const IncorrectExit &rhs) throw() {
+	this->message = rhs.message;
+}
+
+IncorrectExit::~IncorrectExit(void) throw() {}

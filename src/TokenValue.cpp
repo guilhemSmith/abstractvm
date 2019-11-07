@@ -6,11 +6,19 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:31:13 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 15:17:55 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 10:29:00 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "TokenValue.hpp"
+
+std::string const	TokenValue::operandTypeToString[] = {
+	"int8",
+	"int16",
+	"int32",
+	"float",
+	"double",
+};
 
 TokenValue::TokenValue(IOperand const * operand): operand(operand) {}
 
@@ -34,5 +42,9 @@ eTokenType			TokenValue::getType(void) const {
 }
 
 std::string 		TokenValue::toString(void) const {
-	return this->operand->toString();
+	std::stringstream	ss;
+
+	ss << TokenValue::operandTypeToString[this->operand->getType()] << '(' \
+		<< this->operand->toString() << ')';
+	return ss.str();
 }

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 17:16:49 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 11:35:46 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ std::string const				AbstractVM::get_operand_type[] = {
 	"double",
 };
 
-AbstractVM::AbstractVM(void): factory(), input_list(), memory() {}
+AbstractVM::AbstractVM(void): factory(), input_list(), memory(), \
+							exit_flag(false) {}
 
 AbstractVM::~AbstractVM(void) {}
 
@@ -78,7 +79,13 @@ void						AbstractVM::parseTokens(void) \
 void						AbstractVM::runInstructions(void) \
 									throw(AbstractVMException) {
 	for (auto instruction: this->instruction_list) {
-		instruction->run(this->memory);
+		if (this->exit_flag) {
+		throw IncorrectExit(false);
+		}
+		instruction->run(this->memory, this->exit_flag);
+	}
+	if (!this->exit_flag) {
+		throw IncorrectExit(true);
 	}
 }
 
@@ -112,7 +119,7 @@ void						AbstractVM::printMemory(std::ostream & out) const {
 	}
 }
 
-void						AbstractVM::clearLists(void) {
+void						AbstractVM::reset(void) {
 	std::list<std::vector<IToken *>>::iterator	vec;
 	std::vector<IToken *>::iterator				tok;
 
@@ -127,6 +134,7 @@ void						AbstractVM::clearLists(void) {
 	}
 	this->instruction_list = std::list<IInstruction *>();
 	this->memory = std::list<IOperand const *>();
+	this->exit_flag = false;
 }
 
 void						AbstractVM::checkLexErrors(void) const \

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:48:12 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 12:31:06 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 11:35:00 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,18 @@ class ParserFail: public AbstractVM::AbstractVMException {
 	private:
 		ParserFail(void) throw();
 		ParserFail&				operator=(const ParserFail &rhs) throw();
+	
+};
+
+class IncorrectExit: public AbstractVM::AbstractVMException {
+	public:
+		IncorrectExit(bool missing) throw();
+		IncorrectExit(const IncorrectExit &rhs) throw();
+		virtual ~IncorrectExit(void) throw();
+
+	private:
+		IncorrectExit(void) throw();
+		IncorrectExit&				operator=(const ParserFail &rhs) throw();
 	
 };
 

@@ -6,14 +6,14 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 12:00:02 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 10:17:10 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "OperandInt8.hpp"
 
 OperandInt8::OperandInt8(int8_t value, std::string const str): \
-					value(value), str("int8(" + str + ")") {}
+					value(value), str(str) {}
 OperandInt8::~OperandInt8(void) {}
 OperandInt8::OperandInt8(OperandInt8 const & rhs): \
 					value(rhs.value), str(rhs.str) {} 

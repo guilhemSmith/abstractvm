@@ -6,14 +6,14 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 12:00:32 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 10:16:56 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "OperandDouble.hpp"
 
 OperandDouble::OperandDouble(double value, std::string const str): \
-					value(value), str("double(" + str + ")") {}
+					value(value), str(str) {}
 OperandDouble::~OperandDouble(void) {}
 OperandDouble::OperandDouble(OperandDouble const & rhs): \
 					value(rhs.value), str(rhs.str) {}
