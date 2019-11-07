@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:50:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:48:01 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 14:54:45 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,3 +114,43 @@ PopFail::PopFail(const PopFail &rhs) throw() {
 }
 
 PopFail::~PopFail(void) throw() {}
+
+NotEnoughValue::NotEnoughValue(void) throw() {
+	this->message = "The memory need to contain at least 2 values.";
+}
+
+NotEnoughValue::NotEnoughValue(const NotEnoughValue &rhs) throw() {
+	this->message = rhs.message;
+}
+
+NotEnoughValue::~NotEnoughValue(void) throw() {}
+
+DivModByZero::DivModByZero(bool is_division) throw() {
+	if (is_division) {
+		this->message = "Division by zero is not possible.";
+	} else {
+		this->message = "Modulo by zero is not possible.";
+	}
+}
+
+DivModByZero::DivModByZero(const DivModByZero &rhs) throw() {
+	this->message = rhs.message;
+}
+
+DivModByZero::~DivModByZero(void) throw() {}
+
+OverUnderFlow::OverUnderFlow(bool is_overflow, eOperandType type) throw() {
+	if (is_overflow) {
+		this->message = "Operation will overflow " \
+			+ TokenValue::operandTypeToString[type] + " type.";
+	} else {
+		this->message = "Operation will underflow " \
+			+ TokenValue::operandTypeToString[type] + " type.";
+	}
+}
+
+OverUnderFlow::OverUnderFlow(const OverUnderFlow &rhs) throw() {
+	this->message = rhs.message;
+}
+
+OverUnderFlow::~OverUnderFlow(void) throw() {}

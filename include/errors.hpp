@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 10:48:12 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:45:47 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 14:51:53 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,41 @@ class PopFail: public AbstractVM::AbstractVMException {
 
 	private:
 		PopFail&				operator=(const ParserFail &rhs) throw();
+	
+};
+
+class NotEnoughValue: public AbstractVM::AbstractVMException {
+	public:
+		NotEnoughValue(void) throw();
+		NotEnoughValue(const NotEnoughValue &rhs) throw();
+		virtual ~NotEnoughValue(void) throw();
+
+	private:
+		NotEnoughValue&				operator=(const ParserFail &rhs) throw();
+	
+};
+
+class DivModByZero: public AbstractVM::AbstractVMException {
+	public:
+		DivModByZero(bool is_division) throw();
+		DivModByZero(const DivModByZero &rhs) throw();
+		virtual ~DivModByZero(void) throw();
+
+	private:
+		DivModByZero(void) throw();
+		DivModByZero&				operator=(const ParserFail &rhs) throw();
+	
+};
+
+class OverUnderFlow: public AbstractVM::AbstractVMException {
+	public:
+		OverUnderFlow(bool is_overflow, eOperandType type) throw();
+		OverUnderFlow(const OverUnderFlow &rhs) throw();
+		virtual ~OverUnderFlow(void) throw();
+
+	private:
+		OverUnderFlow(void) throw();
+		OverUnderFlow&				operator=(const ParserFail &rhs) throw();
 	
 };
 
