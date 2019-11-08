@@ -6,10 +6,11 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 14:04:52 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 15:23:46 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits>
 #include "OperandInt8.hpp"
 #include "OperandInt16.hpp"
 #include "OperandInt32.hpp"
@@ -38,12 +39,14 @@ IOperand const *	OperandInt8::operator+( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Int8) {
-		int8_t				other = stoi(rhs.toString());
-		int8_t				val = this->value + other;
-		if ((this->value > 0 && other > 0 && val < 0) \
-			|| (this->value < 0 && other < 0 && val > 0)) {
+		int8_t				othr = stoi(rhs.toString());
+		if ((this->value > 0 \
+				&& othr > std::numeric_limits<int8_t>::max() - this->value) \
+			|| (this->value < 0 \
+				&& othr < std::numeric_limits<int8_t>::min() - this->value)) {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
+		int8_t				val = this->value + othr;
 		result = new OperandInt8(val, std::to_string(val));
 	} else {
 		result = rhs + *this;
@@ -54,12 +57,14 @@ IOperand const *	OperandInt8::operator-( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Int8) {
-		int8_t				other = stoi(rhs.toString());
-		int8_t				val = this->value - other;
-		if ((this->value > 0 && other < 0 && val < 0) \
-			|| (this->value < 0 && other > 0 && val > 0)) {
+		int8_t				othr = stoi(rhs.toString());
+		if ((this->value > 0 \
+				&& -othr > std::numeric_limits<int8_t>::max() - this->value) \
+			|| (this->value < 0 \
+				&& -othr < std::numeric_limits<int8_t>::min() - this->value)) {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
+		int8_t				val = this->value - othr;
 		result = new OperandInt8(val, std::to_string(val));
 	} else {
 		result = rhs - *this; 
@@ -71,14 +76,12 @@ IOperand const *	OperandInt8::operator*( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Int8) {
-		int8_t				other = stoi(rhs.toString());
-		int8_t				val = this->value * other;
-		if ((((this->value > 0 && other > 0) \
-					|| (this->value < 0 && other < 0)) && val < 0) \
-			|| (((this->value > 0 && other < 0) \
-					|| (this->value < 0 && other > 0)) && val > 0)) {
+		int8_t				othr = stoi(rhs.toString());
+		if (this->value > std::numeric_limits<int8_t>::max() / othr \
+			|| this->value < std::numeric_limits<int8_t>::min() / othr) {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
+		int8_t				val = this->value * othr;
 		result = new OperandInt8(val, std::to_string(val));
 	} else {
 		result = rhs * *this;
@@ -89,11 +92,11 @@ IOperand const *	OperandInt8::operator/( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Int8) {
-		int8_t				other = stoi(rhs.toString());
-		if (other == 0) {
+		int8_t				othr = stoi(rhs.toString());
+		if (othr == 0) {
 			throw DivModByZero(true);
 		}
-		int8_t				val = this->value / other;
+		int8_t				val = this->value / othr;
 		result = new OperandInt8(val, std::to_string(val));
 	} else {
 		result = *(OperandInt8::reverse8[rhs.getType() \
@@ -106,11 +109,11 @@ IOperand const *	OperandInt8::operator%( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Int8) {
-		int8_t				other = stoi(rhs.toString());
-		if (other == 0) {
+		int8_t				othr = stoi(rhs.toString());
+		if (othr == 0) {
 			throw DivModByZero(false);
 		}
-		int8_t				val = this->value % other;
+		int8_t				val = this->value % othr;
 		result = new OperandInt8(val, std::to_string(val));
 	} else {
 		result = *(OperandInt8::reverse8[rhs.getType() \

@@ -6,10 +6,11 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 14:15:10 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 15:25:10 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits>
 #include "OperandInt32.hpp"
 #include "errors.hpp"
 
@@ -35,12 +36,14 @@ IOperand const *	OperandInt32::operator+( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Int32) {
-		int32_t				other = stoi(rhs.toString());
-		int32_t				val = this->value + other;
-		if ((this->value > 0 && other > 0 && val < 0) \
-			|| (this->value < 0 && other < 0 && val > 0)) {
+		int32_t				othr = stoi(rhs.toString());
+		if ((this->value > 0 \
+				&& othr > std::numeric_limits<int16_t>::max() - this->value) \
+			|| (this->value < 0 \
+				&& othr < std::numeric_limits<int16_t>::min() - this->value)) {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
+		int32_t				val = this->value + othr;
 		result = new OperandInt32(val, std::to_string(val));
 	} else {
 		result = rhs + *this;
@@ -51,12 +54,14 @@ IOperand const *	OperandInt32::operator-( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Int32) {
-		int32_t				other = stoi(rhs.toString());
-		int32_t				val = this->value - other;
-		if ((this->value > 0 && other < 0 && val < 0) \
-			|| (this->value < 0 && other > 0 && val > 0)) {
+		int32_t				othr = stoi(rhs.toString());
+		if ((this->value > 0 \
+				&& -othr > std::numeric_limits<int16_t>::max() - this->value) \
+			|| (this->value < 0 \
+				&& -othr < std::numeric_limits<int16_t>::min() - this->value)) {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
+		int32_t				val = this->value - othr;
 		result = new OperandInt32(val, std::to_string(val));
 	} else {
 		result = rhs - *this; 
@@ -68,12 +73,10 @@ IOperand const *	OperandInt32::operator*( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Int32) {
-		int32_t				other = stoi(rhs.toString());
-		int32_t				val = this->value * other;
-		if ((((this->value > 0 && other > 0) \
-					|| (this->value < 0 && other < 0)) && val < 0) \
-			|| (((this->value > 0 && other < 0) \
-					|| (this->value < 0 && other > 0)) && val > 0)) {
+		int32_t				othr = stoi(rhs.toString());
+		int32_t				val = this->value * othr;
+		if (this->value > std::numeric_limits<int32_t>::max() / othr \
+			|| this->value < std::numeric_limits<int32_t>::min() / othr) {
 			throw OverUnderFlow(true, eOperandType::Int32);
 		}
 		result = new OperandInt32(val, std::to_string(val));
@@ -86,11 +89,11 @@ IOperand const *	OperandInt32::operator/( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Int32) {
-		int32_t				other = stoi(rhs.toString());
-		if (other == 0) {
+		int32_t				othr = stoi(rhs.toString());
+		if (othr == 0) {
 			throw DivModByZero(true);
 		}
-		int32_t				val = this->value / other;
+		int32_t				val = this->value / othr;
 		result = new OperandInt32(val, std::to_string(val));
 	} else {
 		result = *(OperandInt32::reverse32[rhs.getPrecision() \
@@ -103,11 +106,11 @@ IOperand const *	OperandInt32::operator%( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Int32) {
-		int32_t				other = stoi(rhs.toString());
-		if (other == 0) {
+		int32_t				othr = stoi(rhs.toString());
+		if (othr == 0) {
 			throw DivModByZero(false);
 		}
-		int32_t				val = this->value % other;
+		int32_t				val = this->value % othr;
 		result = new OperandInt32(val, std::to_string(val));
 	} else {
 		result = *(OperandInt32::reverse32[rhs.getType() \
