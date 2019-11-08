@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:54:33 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 10:58:00 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 13:43:31 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,19 @@ void						InstructionSimple::instrDiv \
 								(std::list<IOperand const *> & mem, \
 									bool & exit) \
 								const throw(AbstractVM::AbstractVMException) {
-	(void)mem;
 	(void)exit;
-	std::cout << "to implement: Div" << std::endl; 
+	std::tuple<IOperand const *, IOperand const *>	arguments;
+	IOperand const *								result;
+	IOperand const *								first;
+	IOperand const *								second;
+	
+	arguments = InstructionSimple::extractArg(mem);
+	first = std::get<0>(arguments);
+	second = std::get<1>(arguments);
+	result = *first / *second;
+	mem.push_front(result);
+	delete first;
+	delete second;
 }
 void						InstructionSimple::instrMod \
 								(std::list<IOperand const *> & mem, \

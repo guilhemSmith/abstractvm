@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 10:39:17 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 12:38:29 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ public:
 
 	virtual std::string const &	toString(void) const;
 
+	static OperandInt32 const	reverse;
 
 private:
 	OperandInt32(void);
@@ -42,6 +43,7 @@ private:
 	std::string const			str;
 
 	static OperandInt32 const	negate;
+	static IOperand const *		reverse32[2];
 };
 
 #endif

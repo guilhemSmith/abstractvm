@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 11:15:38 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 14:15:10 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include "errors.hpp"
 
 OperandInt32 const	OperandInt32::negate = OperandInt32(-1, "-1");
+OperandInt32 const	OperandInt32::reverse = OperandInt32(1, "1");
+IOperand const *	OperandInt32::reverse32[] = {
+};
 
 OperandInt32::OperandInt32(int32_t value, std::string const str): \
 					value(value), str(str) {}
@@ -80,12 +83,38 @@ IOperand const *	OperandInt32::operator*( IOperand const& rhs ) const {
 	return result;
 }
 IOperand const *	OperandInt32::operator/( IOperand const& rhs ) const {
-	(void)rhs;
-	return this;
+	IOperand const *	result;
+
+	if (rhs.getPrecision() <= (int)eOperandType::Int32) {
+		int32_t				other = stoi(rhs.toString());
+		if (other == 0) {
+			throw DivModByZero(true);
+		}
+		int32_t				val = this->value / other;
+		result = new OperandInt32(val, std::to_string(val));
+	} else {
+		result = *(OperandInt32::reverse32[rhs.getPrecision() \
+				- eOperandType::Float]) * *this;
+		result = *result / rhs;
+	}
+	return result;
 }
 IOperand const *	OperandInt32::operator%( IOperand const& rhs ) const {
-	(void)rhs;
-	return this;
+	IOperand const *	result;
+
+	if (rhs.getPrecision() <= (int)eOperandType::Int32) {
+		int32_t				other = stoi(rhs.toString());
+		if (other == 0) {
+			throw DivModByZero(false);
+		}
+		int32_t				val = this->value % other;
+		result = new OperandInt32(val, std::to_string(val));
+	} else {
+		result = *(OperandInt32::reverse32[rhs.getType() \
+				- eOperandType::Float]) * *this;
+		result = *result % rhs;
+	}
+	return result;
 }
 
 std::string const &	OperandInt32::toString(void) const {

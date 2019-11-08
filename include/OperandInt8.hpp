@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 10:30:41 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 12:38:47 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ private:
 	std::string const			str;
 
 	static OperandInt8 const	negate;
+	static IOperand const *		reverse8[4];
 };
 
 #endif
