@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 15:23:46 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 15:52:52 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 #include "OperandInt8.hpp"
 #include "OperandInt16.hpp"
 #include "OperandInt32.hpp"
+#include "OperandFloat.hpp"
+#include "OperandDouble.hpp"
 #include "errors.hpp"
 
 OperandInt8 const	OperandInt8::negate = OperandInt8(-1, "-1");
 IOperand const *	OperandInt8::reverse8[] = {
 	&OperandInt16::reverse,
 	&OperandInt32::reverse,
+	&OperandFloat::reverse,
+	&OperandDouble::reverse,
 };
 
 OperandInt8::OperandInt8(int8_t value, std::string const str): \

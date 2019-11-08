@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 10:47:33 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 15:49:31 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ public:
 
 	virtual std::string const &	toString(void) const;
 
+	static OperandFloat const	reverse;
 
 private:
 	OperandFloat(void);
@@ -41,6 +42,8 @@ private:
 	float						value;
 	std::string const			str;
 
+	static OperandFloat const	negate;
+	static IOperand const *		reverseFloat[1];
 };
 
 #endif

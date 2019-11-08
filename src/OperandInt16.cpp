@@ -6,19 +6,23 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 15:22:44 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 15:52:49 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits>
 #include "OperandInt16.hpp"
 #include "OperandInt32.hpp"
+#include "OperandFloat.hpp"
+#include "OperandDouble.hpp"
 #include "errors.hpp"
 
 OperandInt16 const	OperandInt16::negate = OperandInt16(-1, "-1");
 OperandInt16 const	OperandInt16::reverse = OperandInt16(1, "1");
 IOperand const *	OperandInt16::reverse16[] = {
 	&OperandInt32::reverse,
+	&OperandFloat::reverse,
+	&OperandDouble::reverse,
 };
 
 OperandInt16::OperandInt16(int16_t value, std::string const str): \

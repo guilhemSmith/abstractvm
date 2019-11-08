@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 12:01:58 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 15:50:14 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ public:
 
 	virtual std::string const &	toString(void) const;
 
+	static OperandDouble const	reverse;
 
 private:
 	OperandDouble(void);
@@ -41,6 +42,7 @@ private:
 	double						value;
 	std::string const			str;
 
+	static OperandDouble const	negate;
 };
 
 #endif
