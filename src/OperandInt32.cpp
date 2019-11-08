@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 10:45:30 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 11:15:38 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,22 @@ IOperand const *	OperandInt32::operator-( IOperand const& rhs ) const {
 	return result;
 }
 IOperand const *	OperandInt32::operator*( IOperand const& rhs ) const {
-	(void)rhs;
-	return this;
+	IOperand const *	result;
+
+	if (rhs.getPrecision() <= (int)eOperandType::Int32) {
+		int32_t				other = stoi(rhs.toString());
+		int32_t				val = this->value * other;
+		if ((((this->value > 0 && other > 0) \
+					|| (this->value < 0 && other < 0)) && val < 0) \
+			|| (((this->value > 0 && other < 0) \
+					|| (this->value < 0 && other > 0)) && val > 0)) {
+			throw OverUnderFlow(true, eOperandType::Int32);
+		}
+		result = new OperandInt32(val, std::to_string(val));
+	} else {
+		result = rhs * *this;
+	}
+	return result;
 }
 IOperand const *	OperandInt32::operator/( IOperand const& rhs ) const {
 	(void)rhs;

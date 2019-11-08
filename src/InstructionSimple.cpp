@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:54:33 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 10:45:39 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 10:58:00 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ std::string			InstructionSimple::toString(void) const {
 
 void						InstructionSimple::instrPop \
 								(std::list<IOperand const *> & mem, \
-									bool & exit) const \
-								throw(AbstractVM::AbstractVMException) {
+									bool & exit) \
+								const throw(AbstractVM::AbstractVMException) {
 	(void)exit;
 	if (mem.size() == 0) {
 		throw PopFail();
@@ -74,8 +74,8 @@ void						InstructionSimple::instrPop \
 }
 void						InstructionSimple::instrDump \
 								(std::list<IOperand const *> & mem, \
-									bool & exit) const \
-								throw(AbstractVM::AbstractVMException) {
+									bool & exit) \
+								const throw(AbstractVM::AbstractVMException) {
 	(void)exit;
 	for (auto value: mem) {
 		std::cout << value->toString() << std::endl;
@@ -83,8 +83,8 @@ void						InstructionSimple::instrDump \
 }
 void						InstructionSimple::instrAdd \
 								(std::list<IOperand const *> & mem, \
-									bool & exit) const \
-								throw(AbstractVM::AbstractVMException) {
+									bool & exit) \
+								const throw(AbstractVM::AbstractVMException) {
 	(void)exit;
 	std::tuple<IOperand const *, IOperand const *>	arguments;
 	IOperand const *								result;
@@ -101,8 +101,8 @@ void						InstructionSimple::instrAdd \
 }
 void						InstructionSimple::instrSub \
 								(std::list<IOperand const *> & mem, \
-									bool & exit) const \
-								throw(AbstractVM::AbstractVMException) {
+									bool & exit) \
+								const throw(AbstractVM::AbstractVMException) {
 	(void)exit;
 	std::tuple<IOperand const *, IOperand const *>	arguments;
 	IOperand const *								result;
@@ -119,32 +119,42 @@ void						InstructionSimple::instrSub \
 }
 void						InstructionSimple::instrMul \
 								(std::list<IOperand const *> & mem, \
-									bool & exit) const \
-								throw(AbstractVM::AbstractVMException) {
-	(void)mem;
+									bool & exit) \
+								const throw(AbstractVM::AbstractVMException) {
 	(void)exit;
-	std::cout << "to implement: Mul" << std::endl; 
+	std::tuple<IOperand const *, IOperand const *>	arguments;
+	IOperand const *								result;
+	IOperand const *								first;
+	IOperand const *								second;
+	
+	arguments = InstructionSimple::extractArg(mem);
+	first = std::get<0>(arguments);
+	second = std::get<1>(arguments);
+	result = *first * *second;
+	mem.push_front(result);
+	delete first;
+	delete second;
 }
 void						InstructionSimple::instrDiv \
 								(std::list<IOperand const *> & mem, \
-									bool & exit) const \
-								throw(AbstractVM::AbstractVMException) {
+									bool & exit) \
+								const throw(AbstractVM::AbstractVMException) {
 	(void)mem;
 	(void)exit;
 	std::cout << "to implement: Div" << std::endl; 
 }
 void						InstructionSimple::instrMod \
 								(std::list<IOperand const *> & mem, \
-									bool & exit) const \
-								throw(AbstractVM::AbstractVMException) {
+									bool & exit) \
+								const throw(AbstractVM::AbstractVMException) {
 	(void)mem;
 	(void)exit;
 	std::cout << "to implement: Mod" << std::endl; 
 }
 void						InstructionSimple::instrPrint \
 								(std::list<IOperand const *> & mem, \
-									bool & exit) const \
-								throw(AbstractVM::AbstractVMException) {
+									bool & exit) \
+								const throw(AbstractVM::AbstractVMException) {
 	(void)exit;
 	OperandInt8 const *	value;
 
@@ -159,8 +169,8 @@ void						InstructionSimple::instrPrint \
 }
 void						InstructionSimple::instrExit \
 								(std::list<IOperand const *> & mem, \
-									bool & exit) const \
-								throw(AbstractVM::AbstractVMException) {
+									bool & exit) \
+								const throw(AbstractVM::AbstractVMException) {
 	(void)mem;
 	exit = true;
 }
