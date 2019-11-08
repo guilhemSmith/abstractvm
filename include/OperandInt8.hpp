@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:32:28 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 10:30:41 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ private:
 	int8_t						value;
 	std::string const			str;
 
+	static OperandInt8 const	negate;
 };
 
 #endif

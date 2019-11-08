@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:54:33 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:14:15 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 16:19:58 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ InstructionArg::InstructionArg \
 					type(type), argument(argument) {
 
 }
-InstructionArg::~InstructionArg(void) {}
+InstructionArg::~InstructionArg(void) {
+	delete this->argument;
+}
 
 void				InstructionArg::run(std::list<IOperand const *> & mem, \
 							bool & exit) \
-						const throw(AbstractVM::AbstractVMException) {
+						throw(AbstractVM::AbstractVMException) {
 	(void)exit;
 	(this->*select[this->type])(mem);
 }
@@ -47,13 +49,14 @@ std::string			InstructionArg::toString(void) const {
 }
 
 void				InstructionArg::instrPush \
-						(std::list<IOperand const *> & mem) const \
+						(std::list<IOperand const *> & mem) \
 						throw(AbstractVM::AbstractVMException) {
 	mem.push_front(this->argument);
+	this->argument = NULL;
 }
 
 void				InstructionArg::instrAssert \
-						(std::list<IOperand const *> & mem) const \
+						(std::list<IOperand const *> & mem) \
 						throw(AbstractVM::AbstractVMException) {
 	IOperand const *	expected;
 	IOperand const *	real;

@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 10:04:53 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 11:59:11 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 16:20:39 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define INSTRUCTIONSIMPLE_HPP
 
 # include <sstream>
+# include <tuple>
 # include "TokenOperation.hpp"
 # include "IInstruction.hpp"
+# include "errors.hpp"
 
 class InstructionSimple: public IInstruction {
 public:
@@ -23,7 +25,7 @@ public:
 	virtual ~InstructionSimple(void);
 
 	virtual void			run(std::list<IOperand const *> & mem, \
-									bool & exit) const \
+									bool & exit) \
 								throw(AbstractVM::AbstractVMException);
 	virtual eInstructionType	getType(void) const;
 	virtual std::string			toString(void) const;
@@ -77,5 +79,8 @@ private:
 
 	static tInstrSelect const	select[TokenOperation::last_operation_simple \
 										- TokenOperation::last_operation_arg];
+	static std::tuple<IOperand const *, IOperand const *> \
+								extractArg(std::list<IOperand const *> & mem) \
+									throw(NotEnoughValue);
 };
 #endif

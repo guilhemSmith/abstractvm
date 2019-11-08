@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:16:47 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:14:45 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 10:46:32 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		main(int argc, char *argv[]) {
 			std::cerr << "[instruction:" << avm.getLine() << "] - " \
 				<< avm_exc.what() << std::endl;
 		}
-		avm.printLists();
 		avm.reset();
 	} else {
 		file_index = 0;
@@ -63,7 +62,6 @@ int		main(int argc, char *argv[]) {
 					<< std::endl;
 			}
 			file_stream.close();
-			avm.printLists();
 			avm.reset();
 		}
 	}

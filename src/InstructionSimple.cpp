@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:54:33 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 13:45:27 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 10:45:39 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,20 @@ InstructionSimple::tInstrSelect const		InstructionSimple::select[] = {
 	&InstructionSimple::instrExit,
 };
 
+std::tuple<IOperand const *, IOperand const *> \
+					InstructionSimple::extractArg \
+						(std::list<IOperand const *> & mem)
+						throw(NotEnoughValue) {
+	if (mem.size() < 2) {
+		throw NotEnoughValue();
+	}
+	IOperand const *	first = mem.front();
+	mem.pop_front();
+	IOperand const *	second = mem.front();
+	mem.pop_front();
+	return std::make_tuple(first, second);
+}
+
 InstructionSimple::InstructionSimple (eOperationType const type): type(type) {
 
 }
@@ -34,7 +48,7 @@ InstructionSimple::~InstructionSimple(void) {}
 
 void				InstructionSimple::run(std::list<IOperand const *> & mem, \
 							bool & exit) \
-						const throw(AbstractVM::AbstractVMException) {
+						throw(AbstractVM::AbstractVMException) {
 	(this->*select[this->type - TokenOperation::last_operation_arg - 1]) \
 		(mem, exit);
 }
@@ -55,6 +69,7 @@ void						InstructionSimple::instrPop \
 	if (mem.size() == 0) {
 		throw PopFail();
 	}
+	delete mem.front();
 	mem.pop_front(); 
 }
 void						InstructionSimple::instrDump \
@@ -70,17 +85,37 @@ void						InstructionSimple::instrAdd \
 								(std::list<IOperand const *> & mem, \
 									bool & exit) const \
 								throw(AbstractVM::AbstractVMException) {
-	(void)mem;
 	(void)exit;
-	std::cout << "to implement: Add" << std::endl; 
+	std::tuple<IOperand const *, IOperand const *>	arguments;
+	IOperand const *								result;
+	IOperand const *								first;
+	IOperand const *								second;
+	
+	arguments = InstructionSimple::extractArg(mem);
+	first = std::get<0>(arguments);
+	second = std::get<1>(arguments);
+	result = *first + *second;
+	mem.push_front(result);
+	delete first;
+	delete second;
 }
 void						InstructionSimple::instrSub \
 								(std::list<IOperand const *> & mem, \
 									bool & exit) const \
 								throw(AbstractVM::AbstractVMException) {
-	(void)mem;
 	(void)exit;
-	std::cout << "to implement: Sub" << std::endl; 
+	std::tuple<IOperand const *, IOperand const *>	arguments;
+	IOperand const *								result;
+	IOperand const *								first;
+	IOperand const *								second;
+	
+	arguments = InstructionSimple::extractArg(mem);
+	first = std::get<0>(arguments);
+	second = std::get<1>(arguments);
+	result = *first - *second;
+	mem.push_front(result);
+	delete first;
+	delete second;
 }
 void						InstructionSimple::instrMul \
 								(std::list<IOperand const *> & mem, \

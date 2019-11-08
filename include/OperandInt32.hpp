@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 15:54:58 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 10:47:53 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 10:39:17 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ private:
 	int32_t						value;
 	std::string const			str;
 
+	static OperandInt32 const	negate;
 };
 
 #endif

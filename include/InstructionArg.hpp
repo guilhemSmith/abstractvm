@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 10:04:53 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 10:42:45 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 16:19:47 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ public:
 	virtual ~InstructionArg(void);
 
 	virtual void				run(std::list<IOperand const *> & mem, \
-										bool & exit) const \
+										bool & exit) \
 									throw(AbstractVM::AbstractVMException);
 	virtual eInstructionType	getType(void) const;
 	virtual std::string			toString(void) const; 
@@ -38,15 +38,13 @@ private:
 	IOperand const *			argument;
 
 	void						instrPush(std::list<IOperand const *> & mem) \
-									const \
 									throw(AbstractVM::AbstractVMException);
 	void						instrAssert(std::list<IOperand const *> & mem) \
-									const \
 									throw(AbstractVM::AbstractVMException);
 
 
 	typedef void (InstructionArg::*tInstrSelect) \
-								(std::list<IOperand const *> & mem) const;
+								(std::list<IOperand const *> & mem);
 
 	static tInstrSelect const	select[TokenOperation::last_operation_arg + 1];
 };

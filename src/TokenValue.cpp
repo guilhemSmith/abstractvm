@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:31:13 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 10:29:00 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 16:16:18 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ TokenValue &		TokenValue::operator=(TokenValue const & rhs) {
 	return *this;
 }
 
-IOperand const *	TokenValue::getOperand(void) const {
-	return this->operand;
+IOperand const *	TokenValue::getOperand(void) {
+	IOperand const *	operand = this->operand;
+
+	this->operand = NULL;
+	return operand;
 }
 
 eTokenType			TokenValue::getType(void) const {

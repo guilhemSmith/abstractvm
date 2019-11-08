@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 10:04:53 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 10:43:06 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 16:20:33 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ public:
 
 	std::string const			getErrorMessage(void) const;
 	virtual void				run(std::list<IOperand const *> & mem, \
-										bool & exit) const \
+										bool & exit) \
 									throw(AbstractVM::AbstractVMException);
 	virtual eInstructionType	getType(void) const;
 	virtual std::string			toString(void) const;

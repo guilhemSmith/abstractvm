@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:20:27 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 10:28:48 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 16:16:35 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ public:
 	TokenValue(TokenValue const & rhs);
 	TokenValue &				operator=(TokenValue const & rhs);
 
-	IOperand const *			getOperand(void) const;
+	IOperand const *			getOperand(void);
 
 	virtual eTokenType			getType(void) const;
 	virtual std::string			toString(void) const;

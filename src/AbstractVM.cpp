@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 12:13:38 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/07 16:25:36 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void						AbstractVM::runInstructions(void) \
 	for (auto instruction: this->instruction_list) {
 		this->line++;
 		if (this->exit_flag) {
-		throw IncorrectExit(false);
+			throw IncorrectExit(false);
 		}
 		instruction->run(this->memory, this->exit_flag);
 	}
@@ -134,6 +134,9 @@ void						AbstractVM::reset(void) {
 		delete instruction;
 	}
 	this->instruction_list = std::list<IInstruction *>();
+	for (auto value: this->memory) {
+		delete value;
+	}
 	this->memory = std::list<IOperand const *>();
 	this->exit_flag = false;
 	this->line = 0;
