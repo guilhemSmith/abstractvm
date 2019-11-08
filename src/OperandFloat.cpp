@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 16:29:43 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 16:41:02 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ IOperand const *	OperandFloat::operator+( IOperand const& rhs ) const {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
 		float				val = this->value + othr;
+		if (!std::isnormal(val)) {
+			throw OverUnderFlow(false, eOperandType::Float);
+		}
 		result = new OperandFloat(val, std::to_string(val));
 	} else {
 		result = rhs + *this;
@@ -65,6 +68,9 @@ IOperand const *	OperandFloat::operator-( IOperand const& rhs ) const {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
 		float				val = this->value - othr;
+		if (!std::isnormal(val)) {
+			throw OverUnderFlow(false, eOperandType::Float);
+		}
 		result = new OperandFloat(val, std::to_string(val));
 	} else {
 		result = rhs - *this; 
@@ -77,10 +83,13 @@ IOperand const *	OperandFloat::operator*( IOperand const& rhs ) const {
 
 	if (rhs.getPrecision() <= (int)eOperandType::Float) {
 		float				othr = stol(rhs.toString());
-		float				val = this->value * othr;
 		if (this->value > std::numeric_limits<float>::max() / othr \
 			|| this->value < std::numeric_limits<float>::lowest() / othr) {
 			throw OverUnderFlow(true, eOperandType::Float);
+		}
+		float				val = this->value * othr;
+		if (!std::isnormal(val)) {
+			throw OverUnderFlow(false, eOperandType::Float);
 		}
 		result = new OperandFloat(val, std::to_string(val));
 	} else {
@@ -93,10 +102,13 @@ IOperand const *	OperandFloat::operator/( IOperand const& rhs ) const {
 
 	if (rhs.getPrecision() <= (int)eOperandType::Float) {
 		float				othr = stol(rhs.toString());
-		if (othr == 0) {
+		if (!std::isnormal(othr)) {
 			throw DivModByZero(true);
 		}
 		float				val = this->value / othr;
+		if (!std::isnormal(val)) {
+			throw OverUnderFlow(false, eOperandType::Float);
+		}
 		result = new OperandFloat(val, std::to_string(val));
 	} else {
 		result = *(OperandFloat::reverseFloat[rhs.getPrecision() \
@@ -110,10 +122,13 @@ IOperand const *	OperandFloat::operator%( IOperand const& rhs ) const {
 
 	if (rhs.getPrecision() <= (int)eOperandType::Float) {
 		float				othr = stol(rhs.toString());
-		if (othr == 0) {
+		if (!std::isnormal(othr)) {
 			throw DivModByZero(false);
 		}
 		float				val = std::fmod(this->value, othr);
+		if (!std::isnormal(val)) {
+			throw OverUnderFlow(false, eOperandType::Float);
+		}
 		result = new OperandFloat(val, std::to_string(val));
 	} else {
 		result = *(OperandFloat::reverseFloat[rhs.getType() \

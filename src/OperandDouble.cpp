@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 16:29:54 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/08 16:41:14 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ IOperand const *	OperandDouble::operator+( IOperand const& rhs ) const {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
 		double				val = this->value + othr;
+		if (!std::isnormal(val)) {
+			throw OverUnderFlow(false, eOperandType::Float);
+		}
 		result = new OperandDouble(val, std::to_string(val));
 	} else {
 		result = rhs + *this;
@@ -61,6 +64,9 @@ IOperand const *	OperandDouble::operator-( IOperand const& rhs ) const {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
 		double				val = this->value - othr;
+		if (!std::isnormal(val)) {
+			throw OverUnderFlow(false, eOperandType::Float);
+		}
 		result = new OperandDouble(val, std::to_string(val));
 	} else {
 		result = rhs - *this; 
@@ -73,10 +79,13 @@ IOperand const *	OperandDouble::operator*( IOperand const& rhs ) const {
 
 	if (rhs.getPrecision() <= (int)eOperandType::Double) {
 		double				othr = stol(rhs.toString());
-		double				val = this->value * othr;
 		if (this->value > std::numeric_limits<double>::max() / othr \
 			|| this->value < std::numeric_limits<double>::lowest() / othr) {
 			throw OverUnderFlow(true, eOperandType::Double);
+		}
+		double				val = this->value * othr;
+		if (!std::isnormal(val)) {
+			throw OverUnderFlow(false, eOperandType::Float);
 		}
 		result = new OperandDouble(val, std::to_string(val));
 	} else {
@@ -89,10 +98,13 @@ IOperand const *	OperandDouble::operator/( IOperand const& rhs ) const {
 
 	if (rhs.getPrecision() <= (int)eOperandType::Double) {
 		double				othr = stol(rhs.toString());
-		if (othr == 0) {
+		if (!std::isnormal(othr)) {
 			throw DivModByZero(true);
 		}
 		double				val = this->value / othr;
+		if (!std::isnormal(val)) {
+			throw OverUnderFlow(false, eOperandType::Float);
+		}
 		result = new OperandDouble(val, std::to_string(val));
 	} else {
 		return NULL;
@@ -104,10 +116,13 @@ IOperand const *	OperandDouble::operator%( IOperand const& rhs ) const {
 
 	if (rhs.getPrecision() <= (int)eOperandType::Double) {
 		double				othr = stol(rhs.toString());
-		if (othr == 0) {
+		if (!std::isnormal(othr)) {
 			throw DivModByZero(false);
 		}
 		double				val = std::fmod(this->value, othr);
+		if (!std::isnormal(val)) {
+			throw OverUnderFlow(false, eOperandType::Float);
+		}
 		result = new OperandDouble(val, std::to_string(val));
 	} else {
 		return NULL;
