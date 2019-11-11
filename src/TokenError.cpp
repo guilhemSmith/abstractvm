@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 17:31:13 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/06 11:46:06 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/11 12:00:29 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ std::string const	TokenError::getErrorMessage(void) const {
 	} else if (this->type == ErrValueType) {
 		ss << "This type is unknown";
 	} else {
-		ss << "This instruction is not recognized";
+		ss << "This word is not recognized";
 	}
 	ss << ": '" << this->input_value << "'";
 	return ss.str();

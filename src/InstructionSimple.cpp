@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 14:54:33 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 15:53:11 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/11 12:11:49 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ std::tuple<IOperand const *, IOperand const *> \
 	if (mem.size() < 2) {
 		throw NotEnoughValue();
 	}
-	IOperand const *	first = mem.front();
-	mem.pop_front();
 	IOperand const *	second = mem.front();
+	mem.pop_front();
+	IOperand const *	first = mem.front();
 	mem.pop_front();
 	return std::make_tuple(first, second);
 }
@@ -94,7 +94,13 @@ void						InstructionSimple::instrAdd \
 	arguments = InstructionSimple::extractArg(mem);
 	first = std::get<0>(arguments);
 	second = std::get<1>(arguments);
-	result = *first + *second;
+	try {
+		result = *first + *second;
+	} catch (AbstractVM::AbstractVMException e) {
+		delete first;
+		delete second;
+		throw e;
+	}
 	mem.push_front(result);
 	delete first;
 	delete second;
@@ -112,7 +118,13 @@ void						InstructionSimple::instrSub \
 	arguments = InstructionSimple::extractArg(mem);
 	first = std::get<0>(arguments);
 	second = std::get<1>(arguments);
-	result = *first - *second;
+	try {
+		result = *first - *second;
+	} catch (AbstractVM::AbstractVMException e) {
+		delete first;
+		delete second;
+		throw e;
+	}
 	mem.push_front(result);
 	delete first;
 	delete second;
@@ -130,7 +142,13 @@ void						InstructionSimple::instrMul \
 	arguments = InstructionSimple::extractArg(mem);
 	first = std::get<0>(arguments);
 	second = std::get<1>(arguments);
-	result = *first * *second;
+	try {
+		result = *first * *second;
+	} catch (AbstractVM::AbstractVMException e) {
+		delete first;
+		delete second;
+		throw e;
+	}
 	mem.push_front(result);
 	delete first;
 	delete second;
@@ -148,7 +166,13 @@ void						InstructionSimple::instrDiv \
 	arguments = InstructionSimple::extractArg(mem);
 	first = std::get<0>(arguments);
 	second = std::get<1>(arguments);
-	result = *first / *second;
+	try {
+		result = *first / *second;
+	} catch (AbstractVM::AbstractVMException e) {
+		delete first;
+		delete second;
+		throw e;
+	}
 	mem.push_front(result);
 	delete first;
 	delete second;
@@ -166,7 +190,13 @@ void						InstructionSimple::instrMod \
 	arguments = InstructionSimple::extractArg(mem);
 	first = std::get<0>(arguments);
 	second = std::get<1>(arguments);
-	result = *first % *second;
+	try {
+		result = *first % *second;
+	} catch (AbstractVM::AbstractVMException e) {
+		delete first;
+		delete second;
+		throw e;
+	}
 	mem.push_front(result);
 	delete first;
 	delete second;
