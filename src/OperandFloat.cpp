@@ -6,11 +6,12 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 16:41:02 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/12 11:10:48 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cmath>
+#include <cfenv>
 #include <limits>
 #include "OperandFloat.hpp"
 #include "OperandDouble.hpp"
@@ -29,7 +30,7 @@ OperandFloat::OperandFloat(OperandFloat const & rhs): \
 					value(rhs.value), str(rhs.str) {} 
 
 int					OperandFloat::getPrecision(void) const {
-	return 4;
+	return (int)eOperandType::Float;
 }
 eOperandType		OperandFloat::getType(void) const {
 	return eOperandType::Float;
@@ -39,15 +40,16 @@ IOperand const *	OperandFloat::operator+( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Float) {
-		float				othr = stol(rhs.toString());
+		float				othr = stold(rhs.toString());
 		if ((this->value > 0 \
 				&& othr > std::numeric_limits<float>::max() - this->value) \
 			|| (this->value < 0 \
 				&& othr < std::numeric_limits<float>::lowest() - this->value)) {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
+		std::feclearexcept(FE_ALL_EXCEPT);
 		float				val = this->value + othr;
-		if (!std::isnormal(val)) {
+		if (std::fetestexcept(FE_UNDERFLOW)) {
 			throw OverUnderFlow(false, eOperandType::Float);
 		}
 		result = new OperandFloat(val, std::to_string(val));
@@ -60,15 +62,16 @@ IOperand const *	OperandFloat::operator-( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Float) {
-		float				othr = stol(rhs.toString());
+		float				othr = stold(rhs.toString());
 		if ((this->value > 0 \
 				&& -othr > std::numeric_limits<float>::max() - this->value) \
 			|| (this->value < 0 \
 				&& -othr < std::numeric_limits<float>::lowest() - this->value)) {
 			throw OverUnderFlow(true, eOperandType::Int8);
 		}
+		std::feclearexcept(FE_ALL_EXCEPT);
 		float				val = this->value - othr;
-		if (!std::isnormal(val)) {
+		if (std::fetestexcept(FE_UNDERFLOW)) {
 			throw OverUnderFlow(false, eOperandType::Float);
 		}
 		result = new OperandFloat(val, std::to_string(val));
@@ -82,13 +85,14 @@ IOperand const *	OperandFloat::operator*( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Float) {
-		float				othr = stol(rhs.toString());
+		float				othr = stold(rhs.toString());
 		if (this->value > std::numeric_limits<float>::max() / othr \
 			|| this->value < std::numeric_limits<float>::lowest() / othr) {
 			throw OverUnderFlow(true, eOperandType::Float);
 		}
+		std::feclearexcept(FE_ALL_EXCEPT);
 		float				val = this->value * othr;
-		if (!std::isnormal(val)) {
+		if (std::fetestexcept(FE_UNDERFLOW)) {
 			throw OverUnderFlow(false, eOperandType::Float);
 		}
 		result = new OperandFloat(val, std::to_string(val));
@@ -101,12 +105,13 @@ IOperand const *	OperandFloat::operator/( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Float) {
-		float				othr = stol(rhs.toString());
+		float				othr = stold(rhs.toString());
 		if (!std::isnormal(othr)) {
 			throw DivModByZero(true);
 		}
+		std::feclearexcept(FE_ALL_EXCEPT);
 		float				val = this->value / othr;
-		if (!std::isnormal(val)) {
+		if (std::fetestexcept(FE_UNDERFLOW)) {
 			throw OverUnderFlow(false, eOperandType::Float);
 		}
 		result = new OperandFloat(val, std::to_string(val));
@@ -121,12 +126,13 @@ IOperand const *	OperandFloat::operator%( IOperand const& rhs ) const {
 	IOperand const *	result;
 
 	if (rhs.getPrecision() <= (int)eOperandType::Float) {
-		float				othr = stol(rhs.toString());
+		float				othr = stold(rhs.toString());
 		if (!std::isnormal(othr)) {
 			throw DivModByZero(false);
 		}
+		std::feclearexcept(FE_ALL_EXCEPT);
 		float				val = std::fmod(this->value, othr);
-		if (!std::isnormal(val)) {
+		if (std::fetestexcept(FE_UNDERFLOW)) {
 			throw OverUnderFlow(false, eOperandType::Float);
 		}
 		result = new OperandFloat(val, std::to_string(val));

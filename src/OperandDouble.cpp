@@ -6,11 +6,12 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 16:12:50 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/08 16:41:14 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/12 11:06:51 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cmath>
+#include <cfenv>
 #include <limits>
 #include "OperandDouble.hpp"
 #include "errors.hpp"
@@ -25,7 +26,7 @@ OperandDouble::OperandDouble(OperandDouble const & rhs): \
 					value(rhs.value), str(rhs.str) {}
 
 int					OperandDouble::getPrecision(void) const {
-	return 5;
+	return (int)eOperandType::Double;
 }
 eOperandType		OperandDouble::getType(void) const {
 	return eOperandType::Double;
@@ -34,99 +35,83 @@ eOperandType		OperandDouble::getType(void) const {
 IOperand const *	OperandDouble::operator+( IOperand const& rhs ) const {
 	IOperand const *	result;
 
-	if (rhs.getPrecision() <= (int)eOperandType::Double) {
-		double				othr = stol(rhs.toString());
-		if ((this->value > 0 \
-				&& othr > std::numeric_limits<double>::max() - this->value) \
-			|| (this->value < 0 \
-				&& othr < std::numeric_limits<double>::lowest() - this->value)) {
-			throw OverUnderFlow(true, eOperandType::Int8);
-		}
-		double				val = this->value + othr;
-		if (!std::isnormal(val)) {
-			throw OverUnderFlow(false, eOperandType::Float);
-		}
-		result = new OperandDouble(val, std::to_string(val));
-	} else {
-		result = rhs + *this;
+	double				othr = stold(rhs.toString());
+	if ((this->value > 0 \
+			&& othr > std::numeric_limits<double>::max() - this->value) \
+		|| (this->value < 0 \
+			&& othr < std::numeric_limits<double>::lowest() - this->value)) {
+		throw OverUnderFlow(true, eOperandType::Int8);
 	}
+	std::feclearexcept(FE_ALL_EXCEPT);
+	double				val = this->value + othr;
+	if (std::fetestexcept(FE_UNDERFLOW)) {
+		throw OverUnderFlow(false, eOperandType::Float);
+	}
+	result = new OperandDouble(val, std::to_string(val));
 	return result;
 }
 IOperand const *	OperandDouble::operator-( IOperand const& rhs ) const {
 	IOperand const *	result;
 
-	if (rhs.getPrecision() <= (int)eOperandType::Double) {
-		double				othr = stol(rhs.toString());
-		if ((this->value > 0 \
-				&& -othr > std::numeric_limits<double>::max() - this->value) \
-			|| (this->value < 0 \
-				&& -othr < std::numeric_limits<double>::lowest() - this->value)) {
-			throw OverUnderFlow(true, eOperandType::Int8);
-		}
-		double				val = this->value - othr;
-		if (!std::isnormal(val)) {
-			throw OverUnderFlow(false, eOperandType::Float);
-		}
-		result = new OperandDouble(val, std::to_string(val));
-	} else {
-		result = rhs - *this; 
-		result = *result * OperandDouble::negate;
+	double				othr = stold(rhs.toString());
+	if ((this->value > 0 \
+			&& -othr > std::numeric_limits<double>::max() - this->value) \
+		|| (this->value < 0 \
+			&& -othr < std::numeric_limits<double>::lowest() - this->value)) {
+		throw OverUnderFlow(true, eOperandType::Int8);
 	}
+	std::feclearexcept(FE_ALL_EXCEPT);
+	double				val = this->value - othr;
+	if (std::fetestexcept(FE_UNDERFLOW)) {
+		throw OverUnderFlow(false, eOperandType::Float);
+	}
+	result = new OperandDouble(val, std::to_string(val));
 	return result;
 }
 IOperand const *	OperandDouble::operator*( IOperand const& rhs ) const {
 	IOperand const *	result;
 
-	if (rhs.getPrecision() <= (int)eOperandType::Double) {
-		double				othr = stol(rhs.toString());
-		if (this->value > std::numeric_limits<double>::max() / othr \
-			|| this->value < std::numeric_limits<double>::lowest() / othr) {
-			throw OverUnderFlow(true, eOperandType::Double);
-		}
-		double				val = this->value * othr;
-		if (!std::isnormal(val)) {
-			throw OverUnderFlow(false, eOperandType::Float);
-		}
-		result = new OperandDouble(val, std::to_string(val));
-	} else {
-		result = rhs * *this;
+	double				othr = stold(rhs.toString());
+	if (this->value > std::numeric_limits<double>::max() / othr \
+		|| this->value < std::numeric_limits<double>::lowest() / othr) {
+		throw OverUnderFlow(true, eOperandType::Double);
 	}
+	std::feclearexcept(FE_ALL_EXCEPT);
+	double				val = this->value * othr;
+	if (std::fetestexcept(FE_UNDERFLOW)) {
+		throw OverUnderFlow(false, eOperandType::Float);
+	}
+	result = new OperandDouble(val, std::to_string(val));
 	return result;
 }
 IOperand const *	OperandDouble::operator/( IOperand const& rhs ) const {
 	IOperand const *	result;
 
-	if (rhs.getPrecision() <= (int)eOperandType::Double) {
-		double				othr = stol(rhs.toString());
-		if (!std::isnormal(othr)) {
-			throw DivModByZero(true);
-		}
-		double				val = this->value / othr;
-		if (!std::isnormal(val)) {
-			throw OverUnderFlow(false, eOperandType::Float);
-		}
-		result = new OperandDouble(val, std::to_string(val));
-	} else {
-		return NULL;
+	double				othr = stold(rhs.toString());
+	if (!std::isnormal(othr)) {
+		throw DivModByZero(true);
 	}
+	std::feclearexcept(FE_ALL_EXCEPT);
+	double				val = this->value / othr;
+	if (std::fetestexcept(FE_UNDERFLOW)) {
+		throw OverUnderFlow(false, eOperandType::Float);
+	}
+	result = new OperandDouble(val, std::to_string(val));
 	return result;
 }
 IOperand const *	OperandDouble::operator%( IOperand const& rhs ) const {
 	IOperand const *	result;
 
-	if (rhs.getPrecision() <= (int)eOperandType::Double) {
-		double				othr = stol(rhs.toString());
-		if (!std::isnormal(othr)) {
-			throw DivModByZero(false);
-		}
-		double				val = std::fmod(this->value, othr);
-		if (!std::isnormal(val)) {
-			throw OverUnderFlow(false, eOperandType::Float);
-		}
-		result = new OperandDouble(val, std::to_string(val));
-	} else {
-		return NULL;
+	double				othr = stold(rhs.toString());
+	if (!std::isnormal(othr)) {
+		throw DivModByZero(false);
 	}
+	std::feclearexcept(FE_ALL_EXCEPT);
+	double				val = std::fmod(this->value, othr);
+	if (std::fetestexcept(FE_UNDERFLOW)) {
+		throw OverUnderFlow(false, eOperandType::Float);
+	}
+	result = new OperandDouble(val, std::to_string(val));
 	return result;
 }
 

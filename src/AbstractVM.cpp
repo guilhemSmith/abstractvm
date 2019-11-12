@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 13:06:35 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 16:25:36 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/12 11:53:55 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,12 +243,17 @@ IToken *				AbstractVM::createValue(std::string value_raw) const {
 				if (AbstractVM::get_operand_type[i] != grps[1]) {
 					continue;
 				}
-				IOperand const *	op = this->factory.createOperand( \
-											(eOperandType)i, grps[2]);
-				if (op == NULL) {
+				try {
+					IOperand const *	op = this->factory.createOperand( \
+												(eOperandType)i, grps[2]);
+					return new TokenValue(op);
+				}
+				catch (OperandFactory::InvalidValue e) {
 					return new TokenError(ErrValue, grps[0]);
 				}
-				return new TokenValue(op);
+				catch (OperandFactory::ValueOverflow e) {
+					return new TokenError(ErrOverflow, grps[0]);
+				}
 			}
 		}
 		return new TokenError(ErrValueType, value_raw);

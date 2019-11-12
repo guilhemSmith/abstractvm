@@ -6,14 +6,13 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 10:04:53 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 16:20:33 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/12 11:59:51 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INSTRUCTIONERROR_HPP
 # define INSTRUCTIONERROR_HPP
 
-# include <sstream>
 # include "IInstruction.hpp"
 
 enum eInstructionErrorType {
@@ -41,5 +40,7 @@ private:
 
 	std::string				instruction;
 	eInstructionErrorType	type;
+
+	static std::string const	errString[3];
 };
 #endif

@@ -6,11 +6,17 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 11:16:34 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/07 16:20:57 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/12 12:08:44 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "InstructionError.hpp"
+
+std::string const	InstructionError::errString[] = {
+	"Too many arguments given.",
+	"This instruction need an argument.",
+	"This instruction is not valid.",
+};
 
 InstructionError::InstructionError \
 					(std::string str, eInstructionErrorType type): \
@@ -18,17 +24,11 @@ InstructionError::InstructionError \
 InstructionError::~InstructionError(void) {}
 
 std::string const	InstructionError::getErrorMessage(void) const {
-	std::stringstream	ss;
+	std::string		out;
 
-	ss << "'" << this->instruction << "': ";
-	if (this->type == TooManyArg) {
-		ss << "Too many arguments given." ;
-	} else if (this->type == MissingArg) {
-		ss << "this instruction need an argument.";
-	} else {
-		ss << "This instruction is not valid.";
-	}
-	return ss.str();
+	out = '\'' + this->instruction + "': " \
+		+ InstructionError::errString[this->type];
+	return out;
 }
 
 void				InstructionError::run(std::list<IOperand const *> & mem, \
@@ -43,16 +43,5 @@ eInstructionType	InstructionError::getType(void) const {
 }
 
 std::string			InstructionError::toString(void) const {
-	std::stringstream	ss;
-
-	ss << "err:(";
-	if (this->type == TooManyArg) {
-		ss << "tooManyArg";
-	} else if (this->type == MissingArg) {
-		ss << "missingArg";
-	} else {
-		ss << "incorrectInstr";
-	}
-	ss << "): " << this->instruction;
-	return ss.str();
+	return this->instruction;
 }

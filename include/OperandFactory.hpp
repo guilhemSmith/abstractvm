@@ -6,7 +6,7 @@
 /*   By: gsmith <gsmith@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:42:24 by gsmith            #+#    #+#             */
-/*   Updated: 2019/11/05 14:02:04 by gsmith           ###   ########.fr       */
+/*   Updated: 2019/11/12 11:52:45 by gsmith           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 class OperandFactory {
 public:
+	class InvalidValue: public std::exception {};
+	class ValueOverflow: public std::exception {};
 	OperandFactory(void);
 	~OperandFactory(void);
 
